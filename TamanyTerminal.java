@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class TamanyTerminal {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         try {
             // Executa la comanda "tput cols" per obtenir la mida en columnes
             ProcessBuilder processBuilder = new ProcessBuilder("tput", "cols");
@@ -18,7 +18,7 @@ public class TamanyTerminal {
             }
 
             
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
