@@ -17,11 +17,7 @@ public class TamanyTerminal {
                 System.out.println("Tamaño en columnas del terminal: " + columns);
             }
 
-            // Espera a que el proceso termine
-            int exitCode = process.waitFor();
-            if (exitCode != 0) {
-                System.err.println("Error al obtener el tamaño en columnas del terminal.");
-            }
+            
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
