@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.security.Key;
 
 public class EditableBufferedReader extends BufferedReader {
 
@@ -67,7 +66,7 @@ public class EditableBufferedReader extends BufferedReader {
             }
             
             if (lect == KeyCar.CRTL_C) {
-                System.err.print("Uau");   
+                System.err.print("Has salido");   
                 return KeyCar.EXIT_KEY;
             }
             if (lect == KeyCar.CLAVE) {
