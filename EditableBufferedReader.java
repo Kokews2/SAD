@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.Key;
 
 public class EditableBufferedReader extends BufferedReader {
 
@@ -57,7 +58,28 @@ public class EditableBufferedReader extends BufferedReader {
     }
 
     public int read() throws IOException {
-        return 0;
+        
+        int lect;
+        try {
+            lect = super.read();
+            if ((lect = super.read()) != KeyCar.ESC) {
+                return lect;
+            }
+            
+            if (lect == KeyCar.CRTL_C) {
+                System.err.print("Uau");   
+                return KeyCar.EXIT_KEY;
+            }
+            if (lect == KeyCar.CLAVE) {
+                lect = super.read();
+                return lect - 1000;
+            }
+        } catch (IOException ex) {
+            System.out.println("Interrupted Exception");
+        }
+        return KeyCar.CARAC;
+
+
     }
 
     public String readLine() throws IOException {
