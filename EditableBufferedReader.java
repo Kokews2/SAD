@@ -61,7 +61,7 @@ public class EditableBufferedReader extends BufferedReader {
         int lect;
         try {
             
-            if ((lect = super.read()) != KeyCar.ESC ) {
+            if ((lect = super.read()) != KeyCar.ESC && super.read() != KeyCar.CLAVE ) {
                 return lect;
             }
             
