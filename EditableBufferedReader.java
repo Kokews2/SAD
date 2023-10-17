@@ -60,8 +60,8 @@ public class EditableBufferedReader extends BufferedReader {
         
         int lect;
         try {
-            lect = super.read();
-            if ((lect = super.read()) != KeyCar.ESC) {
+            
+            if ((lect = super.read()) != KeyCar.ESC ) {
                 return lect;
             }
             
@@ -82,6 +82,11 @@ public class EditableBufferedReader extends BufferedReader {
     }
 
     public String readLine() throws IOException {
-        return "";
+        try {
+            return "";
+        } catch (IOException e) {
+            // TODO: handle exception
+            throw e;
+        }
     }
 }

@@ -7,7 +7,7 @@
 
 public class KeyCar {
 
-    public final static int CRTL_C = 3;
+    public final static int CRTL_C = 127;
     public final static int EXIT = 13;
     public final static int ESC = 27;
     public final static int CLAVE = 91;
@@ -20,8 +20,9 @@ public class KeyCar {
     public final static int SUPR = 51;
     public final static int HOME = 72;
     public final static int END = 70;
-    public final static int DEL = 127;
+    public final static int DEL = 3;
     public final static int BS = 8;
+    public final static int INS = 2;
 
     //KEYS
     public final static int EXIT_KEY = 1009;
