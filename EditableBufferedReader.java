@@ -12,7 +12,7 @@ public class EditableBufferedReader extends BufferedReader {
      * Cambia el mode del terminal a Raw 
      * (Utilitzem la API de ProcessBuilder per executar comanes desde el terminal)
      */
-    public void setRaw() throws InterruptedException {
+    public void setRaw() {
         try {
             // Creem un procés que executi la comana 'stty -echo raw'
             ProcessBuilder processBuilder = new ProcessBuilder("stty", "-echo", "raw");
@@ -83,10 +83,34 @@ public class EditableBufferedReader extends BufferedReader {
 
     public String readLine() throws IOException {
         try {
-            return "";
+            setRaw();
+            Line line = new Line();
+            int key;
+            while ((key = this.read()) != '\r'){        //llegeix fins retorn de carro
+                switch(key) {
+                    case KeyCar.RIGHT_ARROW: line.right();
+                    break;
+                    case KeyCar.LEFT_ARROW: line.left();
+                    break;
+                    case KeyCar.HOME: line.home();
+                    break;
+                    case KeyCar.END: line.end();
+                    break;
+                    case KeyCar.INS: line.insert();
+                    break;
+                    case KeyCar.DEL: line.delete();
+                    break;
+                    case KeyCar.BS: line.backSpace();
+                    break;
+                    default: line.addChar((char) key);
+                }
+            }
+            return line.toString();
         } catch (IOException e) {
             // TODO: handle exception
             throw e;
+        } finally{
+            unsetRaw();
         }
     }
 }
