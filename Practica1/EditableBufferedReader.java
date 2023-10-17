@@ -15,7 +15,7 @@ public class EditableBufferedReader extends BufferedReader {
     public void setRaw() {
         try {
             // Creem un procés que executi la comana 'stty -echo raw'
-            ProcessBuilder processBuilder = new ProcessBuilder("stty", "-echo", "raw");
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", "stty -echo raw</dev/tty");
             Process process = processBuilder.start();
 
             // Esperamos a que el proceso termine
@@ -38,8 +38,8 @@ public class EditableBufferedReader extends BufferedReader {
      */
     void unsetRaw() {
         try {
-            // Creem un procés que executi la comana 'stty -echo raw'
-            ProcessBuilder processBuilder = new ProcessBuilder("stty", "-echo", "cooked");
+            // Creem un procés que executi la comana
+            ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", "stty cooked echo</dev/tty");
             Process process = processBuilder.start();
 
             // Esperamos a que el proceso termine
@@ -47,9 +47,9 @@ public class EditableBufferedReader extends BufferedReader {
 
             // Verifiquem que s'hagi executat bé la comana
             if (exitCode == 0) {
-                System.out.println("Teclat en mode Raw");
+                System.out.println("Teclat en mode Cooked");
             } else {
-                System.out.println("Error al posar el teclat en mode Raw");
+                System.out.println("Error al posar el teclat en mode Cooked");
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
