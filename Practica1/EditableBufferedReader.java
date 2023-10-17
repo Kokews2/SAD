@@ -56,22 +56,45 @@ public class EditableBufferedReader extends BufferedReader {
         }
     }
 
+    /* SECUENCIAS ESCAPE
+     * ***********************************
+     * Right: ESC [ C
+     * Left: ESC [ D
+     * Home: ESC O H, ESC [ 1 ~ (keypad)
+     * End: ESC O F, ESC [ 4 ~ (keypad)
+     * Insert: ESC [ 2 ~
+     * Delete: ESC [ 3 ~
+     */
+
     public int read() throws IOException {
-        
         int lect;
         try {
             
-            if ((lect = super.read()) != KeyCar.ESC && super.read() != KeyCar.CLAVE ) {
+            if ((lect = super.read()) != KeyCar.ESC) {
                 return lect;
             }
             
-            if (lect == KeyCar.CRTL_C) {
-                System.err.print("Has salido");   
-                return KeyCar.EXIT_KEY;
-            }
-            if (lect == KeyCar.CLAVE) {
-                lect = super.read();
-                return lect - 1000;
+            switch(lect = super.read()) {
+                case 'O':
+                    switch(lect = super.read()) {
+                        case 'H': return KeyCar.HOME;
+                        case 'F': return KeyCar.END;
+                        default: return lect;
+                    }
+                case '[':
+                    switch(lect = super.read()) {
+                        case 'C': return KeyCar.RIGHT_ARROW;
+                        case 'D': return KeyCar.LEFT_ARROW;
+                        case '1': 
+                        case '2':
+                        case '3':
+                        case '4':
+                            if ((lect = super.read()) != '~')
+                                return lect;
+                            return KeyCar.HOME + lect - '1';
+                        default: return lect;
+                    }
+                default: return lect;
             }
         } catch (IOException ex) {
             System.out.println("Interrupted Exception");
