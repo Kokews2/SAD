@@ -100,9 +100,38 @@ public class EditableBufferedReader extends BufferedReader {
             System.out.println("Interrupted Exception");
         }
         return KeyCar.CARAC;
+    }
+
+
+/*
+    NOSTRE METODE READ()
+
+    public int read() throws IOException {
+        
+        int lect;
+        try {
+            
+            if ((lect = super.read()) != KeyCar.ESC && super.read() != KeyCar.CLAVE ) {
+                return lect;
+            }
+            
+            if (lect == KeyCar.CRTL_C) {
+                System.err.print("Has salido");   
+                return KeyCar.EXIT_KEY;
+            }
+            if (lect == KeyCar.CLAVE) {
+                lect = super.read();
+                return lect - 1000;
+            }
+        } catch (IOException ex) {
+            System.out.println("Interrupted Exception");
+        }
+        return KeyCar.CARAC;
 
 
     }
+*/
+
 
     public String readLine() throws IOException {
         try {
