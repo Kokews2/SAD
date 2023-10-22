@@ -1,74 +1,82 @@
-import java.util.ArrayList;
-
 public class Line {
 
-    private ArrayList<Character> line;
-    private boolean mode; // True = sobreescrivir. False = insertar
-    private int pos;
+    private StringBuffer line;
+    private int cursorPosition;
+    private boolean insertMode; 
 
     public Line() {
-        line = new ArrayList<>();
-        mode = false;
-        pos = 0;
+        line = new StringBuffer();
+        cursorPosition = 0;
+        insertMode = false;
+    }
+    
+    public int getCursorPosition() {
+        return cursorPosition;
     }
 
-    public void addChar(char car) {
-        if (!mode || pos >= line.size()) {
-            line.add(pos, car);
-        } else {
-            line.set(pos, car);
+    public void moveCursorRight() {
+        if (cursorPosition < line.length()) {
+            cursorPosition++;
+
+            // Movemos cursor a la derecha (secuencia ANSI)
+            System.out.print("\u001b[1C");
         }
-        System.out.print(car);
-        pos++;
+    }
+    
+    public void moveCursorLeft() {
+        if (cursorPosition > 0) {
+            cursorPosition--;
+
+            // Movemos cursor a la izquierda (secuencia ANSI)
+            System.out.print("\u001b[1D");
+        }
     }
 
     public void home() {
-        if (pos > 0) {
-            this.pos = 0;
-        }
+        cursorPosition = 0;
+
+        // Movemos el cursor a la fila 0 y columna 0 (secuencia ANSI)
+        System.out.print("\u001b[0;0H");
     }
 
     public void end() {
-        if (pos < line.size()) {
-            pos = line.size();
-        }
-    }
+        cursorPosition = line.length();
 
-    public void right() {
-        if (pos < line.size()) {
-            pos++;
-        }
-    }
-
-    public void left() {
-        if (pos > 0) {
-            pos--;
-        }
-    }
-
-    public void delete() {
-        if (pos < line.size()) {
-            line.remove(pos);
-        }
-    }
-
-    public void backSpace() {
-        if (pos > 0) {
-            pos--;
-            line.remove(pos);
-        }
+        // Movemos el cursor al final de la linea (secuencia ANSI)
+        int posRestantes = line.length() - cursorPosition; 
+        System.out.print("\u001b[" + posRestantes + "C");
     }
 
     public void insert() {
-        mode = !mode;
+        insertMode = !insertMode;
     }
 
+    public void delete() {
+        if (cursorPosition >= 0 && cursorPosition < line.length()) {
+            line.deleteCharAt(cursorPosition);
+
+            // Mover el texto vacio dejado por el caracter eliminado
+            System.out.print("\u001b[P");
+        }
+    }
+
+    public void deleteChar() {
+        if (cursorPosition > 0 && cursorPosition <= line.length()) {
+            line.deleteCharAt(cursorPosition - 1);
+            moveCursorLeft();
+        }
+    }
+
+    public void addChar(char car) {
+        if (cursorPosition >= 0 && cursorPosition <= line.length()) {
+            line.insert(cursorPosition, car);
+            moveCursorRight();
+            System.out.print(line.toString());
+        }
+    }
+    
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        for (char s : line)
-            str = str.append(s);
-        return str.toString();
+        return line.toString();
     }
-
 }

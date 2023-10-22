@@ -1,32 +1,23 @@
-    /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 public class KeyCar {
-    public final static int CRTL_C = 127;
-    public final static int EXIT = 13;
-    public final static int ESC = 27;
-    public final static int CLAVE = 91;
-    public final static int UP_ARROW = 65;
-    public final static int DOWN_ARROW = 66;
-    public final static int RIGHT_ARROW = 67;
-    public final static int LEFT_ARROW = 68;
-    public final static int INSERT = 50;
-    public final static int WAVE = 126;
-    public final static int SUPR = 51;
-    public final static int HOME = -4; // 72
-    public final static int END = -1; // 70
-    public final static int DEL = -2; // 3
-    public final static int BS = 8;
-    public final static int INS = -3; // 2
 
-    //KEYS
-    public final static int EXIT_KEY = 1009;
-    public final static int CARAC = 1010;
-    public static final String RIGHT_ARROW_s = "\033[C";
-    public static final String LEFT_ARROW_s = "\033[D";
+    // Keys
+    static final int CR = 13; 
+    static final int BS = 127; 
+    static final int ESC = 27;
+
+    static final int INS = 50;   //  "^[[2~" donde 50 = "2"
+    static final int DEL = 51;      //  "^[[3~" donde 51 = "3"
+    static final int RIGHT = 67;    //  "^[[C" donde 67 = "C"
+    static final int LEFT = 68; //  "^[[D" donde 68 = "D"
+    static final int END = 70;    //  "^[[F" donde 70 = "F"
+    static final int HOME = 72;    //  "^[[H" donde 72 = "H"
+
+    // Mapping (para el metodo read())
+    public final static int M_HOME = -1; 
+    public final static int M_INS = -2; 
+    public final static int M_DEL = -3; 
+    public final static int M_END = -4;
+    public final static int M_RIGHT = -5;
+    public final static int M_LEFT = -6;
 }
 

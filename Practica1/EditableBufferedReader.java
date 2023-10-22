@@ -8,63 +8,31 @@ public class EditableBufferedReader extends BufferedReader {
         super(in);
     }
 
-    /*
-     * Cambia el mode del terminal a Raw 
-     * (Utilitzem la API de ProcessBuilder per executar comanes desde el terminal)
-     */
     public void setRaw() {
         try {
-            // Creem un procés que executi la comana 'stty -echo raw'
+            // Creem un procés que executi la comana
             ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", "stty -echo raw</dev/tty");
             Process process = processBuilder.start();
 
-            // Esperamos a que el proceso termine
-            int exitCode = process.waitFor();
+            process.waitFor();
 
-            // Verifiquem que s'hagi executat bé la comana
-            if (exitCode == 0) {
-                System.out.println("Teclat en mode Raw");
-            } else {
-                System.out.println("Error al posar el teclat en mode Raw");
-            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    /*
-     * Cambia el mode del terminal a Cooked 
-     * (Utilitzem la API de ProcessBuilder per executar comanes desde el terminal)
-     */
     void unsetRaw() {
         try {
             // Creem un procés que executi la comana
             ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", "stty cooked echo</dev/tty");
             Process process = processBuilder.start();
 
-            // Esperamos a que el proceso termine
-            int exitCode = process.waitFor();
+            process.waitFor();
 
-            // Verifiquem que s'hagi executat bé la comana
-            if (exitCode == 0) {
-                System.out.println("Teclat en mode Cooked");
-            } else {
-                System.out.println("Error al posar el teclat en mode Cooked");
-            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
-
-    /* SECUENCIAS ESCAPE
-     * ***********************************
-     * Right: ESC [ C
-     * Left: ESC [ D
-     * Home: ESC O H, ESC [ 1 ~ (keypad)
-     * End: ESC O F, ESC [ 4 ~ (keypad)
-     * Insert: ESC [ 2 ~
-     * Delete: ESC [ 3 ~
-     */
 
     public int read() throws IOException {
         int lect;
@@ -79,70 +47,51 @@ public class EditableBufferedReader extends BufferedReader {
                     switch(lect = super.read()) {
                         case 'H': return KeyCar.HOME;
                         case 'F': return KeyCar.END;
-                        default: return lect;
+                        default: return -1;
                     }
                 case '[':
                     switch(lect = super.read()) {
-                        case 'C': return KeyCar.RIGHT_ARROW;
-                        case 'D': return KeyCar.LEFT_ARROW;
+                        case 'C': return KeyCar.M_RIGHT;
+                        case 'D': return KeyCar.M_LEFT;
                         case '1': 
+                            if ((lect = super.read()) != '~')
+                                return -1;
+                            return KeyCar.M_HOME;
                         case '2':
+                            if ((lect = super.read()) != '~')
+                                return -1;
+                            return KeyCar.M_INS;
                         case '3':
+                            if ((lect = super.read()) != '~')
+                                return -1;
+                            return KeyCar.M_DEL;
                         case '4':
                             if ((lect = super.read()) != '~')
-                                return lect;
-                            return KeyCar.HOME + lect - '1';
-                        default: return lect;
+                                return -1;
+                            return KeyCar.M_END;
+                        default: return -1;
                     }
-                default: return lect;
+                default: return -1;
             }
         } catch (IOException ex) {
             System.out.println("Interrupted Exception");
         }
-        return KeyCar.CARAC;
+        return -1;
     }
-
-
-/*
-    NOSTRE METODE READ()
-
-    public int read() throws IOException {
-        
-        int lect;
-        try {
-            
-            if ((lect = super.read()) != KeyCar.ESC && super.read() != KeyCar.CLAVE ) {
-                return lect;
-            }
-            
-            if (lect == KeyCar.CRTL_C) {
-                System.err.print("Has salido");   
-                return KeyCar.EXIT_KEY;
-            }
-            if (lect == KeyCar.CLAVE) {
-                lect = super.read();
-                return lect - 1000;
-            }
-        } catch (IOException ex) {
-            System.out.println("Interrupted Exception");
-        }
-        return KeyCar.CARAC;
-
-
-    }
-*/
-
 
     public String readLine() throws IOException {
         try {
+
             setRaw();
+
             Line line = new Line();
             int key;
-            while ((key = this.read()) != '\r'){        //llegeix fins retorn de carro
+            
+            while ((key = this.read()) != KeyCar.CR){
                 switch(key) {
-                    case KeyCar.RIGHT_ARROW: line.right();
+                    case KeyCar.M_RIGHT: line.moveCursorRight();
                     break;
-                    case KeyCar.LEFT_ARROW: line.left();
+                    case KeyCar.M_LEFT: line.moveCursorLeft();
                     break;
                     case KeyCar.HOME: line.home();
                     break;
@@ -152,17 +101,20 @@ public class EditableBufferedReader extends BufferedReader {
                     break;
                     case KeyCar.DEL: line.delete();
                     break;
-                    case KeyCar.BS: line.backSpace();
+                    case KeyCar.BS: line.deleteChar();
                     break;
                     default: line.addChar((char) key);
                 }
             }
+
             return line.toString();
+
         } catch (IOException e) {
-            // TODO: handle exception
             throw e;
         } finally{
+
             unsetRaw();
+
         }
     }
 }
