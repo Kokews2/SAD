@@ -35,8 +35,8 @@ public class Line {
     public void home() {
         cursorPosition = 0;
 
-        // Movemos el cursor a la fila 0 y columna 0 (secuencia ANSI)
-        System.out.print("\u001b[0;0H");
+        // Movemos el cursor a la izquierda 'cursorPosition' veces (secuencia ANSI)
+        System.out.print("\u001b[" + cursorPosition + "D");
     }
 
     public void end() {
@@ -55,7 +55,7 @@ public class Line {
         if (cursorPosition >= 0 && cursorPosition < line.length()) {
             line.deleteCharAt(cursorPosition);
 
-            // Mover el texto vacio dejado por el caracter eliminado
+            // Eliminamos el caracter en la posicion actual del cursor y mover el texto (secuencia ANSI)
             System.out.print("\u001b[P");
         }
     }
@@ -64,19 +64,33 @@ public class Line {
         if (cursorPosition > 0 && cursorPosition <= line.length()) {
             line.deleteCharAt(cursorPosition - 1);
             moveCursorLeft();
+
+            // Eliminamos el caracter en la posicion actual del cursor y mover el texto (secuencia ANSI)
+            System.out.print("\u001b[P");
         }
     }
 
     public void addChar(char car) {
-        if (cursorPosition >= 0 && cursorPosition <= line.length()) {
+        if (insertMode && cursorPosition <= line.length()) {
+            // Activamos modo de inserccion (secuencia ANSI)
+            System.out.println("\u001b[4h");
+            
+            line.setCharAt(cursorPosition, car);
+            System.out.print(car);
+            cursorPosition++;
+        } else {
+            // Desactivamos modo de inserccion (secuencia ANSI)
+            System.out.print("\u001b[4l");
+
             line.insert(cursorPosition, car);
-            moveCursorRight();
-            System.out.print(line.toString());
+            System.out.print(car);
+            cursorPosition++;
         }
     }
     
     @Override
     public String toString() {
+        home();
         return line.toString();
     }
 }

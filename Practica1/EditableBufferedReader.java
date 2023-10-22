@@ -46,7 +46,7 @@ public class EditableBufferedReader extends BufferedReader {
                 case 'O':
                     switch(lect = super.read()) {
                         case 'H': return KeyCar.HOME;
-                        case 'F': return KeyCar.END;
+                        case 'F': return KeyCar.END; 
                         default: return -1;
                     }
                 case '[':
