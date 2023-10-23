@@ -35,7 +35,7 @@ public class EditableBufferedReader extends BufferedReader {
     }
 
     public int read() throws IOException {
-        int lect;
+        int lect = 0;
         try {
             
             if ((lect = super.read()) != KeyCar.ESC) {
@@ -47,7 +47,7 @@ public class EditableBufferedReader extends BufferedReader {
                     switch(lect = super.read()) {
                         case 'H': return KeyCar.HOME;
                         case 'F': return KeyCar.END; 
-                        default: return -1;
+                        default: return lect;
                     }
                 case '[':
                     switch(lect = super.read()) {
@@ -55,28 +55,28 @@ public class EditableBufferedReader extends BufferedReader {
                         case 'D': return KeyCar.M_LEFT;
                         case '1': 
                             if ((lect = super.read()) != '~')
-                                return -1;
+                                return lect;
                             return KeyCar.M_HOME;
                         case '2':
                             if ((lect = super.read()) != '~')
-                                return -1;
+                                return lect;
                             return KeyCar.M_INS;
                         case '3':
                             if ((lect = super.read()) != '~')
-                                return -1;
+                                return lect;
                             return KeyCar.M_DEL;
                         case '4':
                             if ((lect = super.read()) != '~')
-                                return -1;
+                                return lect;
                             return KeyCar.M_END;
-                        default: return -1;
+                        default: return lect;
                     }
-                default: return -1;
+                default: return lect;
             }
         } catch (IOException ex) {
             System.out.println("Interrupted Exception");
         }
-        return -1;
+        return lect;
     }
 
     public String readLine() throws IOException {
@@ -93,13 +93,13 @@ public class EditableBufferedReader extends BufferedReader {
                     break;
                     case KeyCar.M_LEFT: line.moveCursorLeft();
                     break;
-                    case KeyCar.HOME: line.home();
+                    case KeyCar.M_HOME: line.home();
                     break;
-                    case KeyCar.END: line.end();
+                    case KeyCar.M_END: line.end();
                     break;
-                    case KeyCar.INS: line.insert();
+                    case KeyCar.M_INS: line.insert();
                     break;
-                    case KeyCar.DEL: line.delete();
+                    case KeyCar.M_DEL: line.delete();
                     break;
                     case KeyCar.BS: line.deleteChar();
                     break;

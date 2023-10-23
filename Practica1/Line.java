@@ -16,19 +16,19 @@ public class Line {
 
     public void moveCursorRight() {
         if (cursorPosition < line.length()) {
-            cursorPosition++;
-
             // Movemos cursor a la derecha (secuencia ANSI)
             System.out.print("\u001b[1C");
+
+            cursorPosition++;
         }
     }
     
     public void moveCursorLeft() {
         if (cursorPosition > 0) {
-            cursorPosition--;
-
             // Movemos cursor a la izquierda (secuencia ANSI)
             System.out.print("\u001b[1D");
+
+            cursorPosition--;
         }
     }
 
@@ -71,20 +71,22 @@ public class Line {
     }
 
     public void addChar(char car) {
-        if (insertMode && cursorPosition <= line.length()) {
-            // Activamos modo de inserccion (secuencia ANSI)
-            System.out.println("\u001b[4h");
+        if (cursorPosition <= line.length()) {
+            if (insertMode) {
+                // Activamos modo de inserccion (secuencia ANSI)
+                System.out.println("\u001b[4h");
             
-            line.setCharAt(cursorPosition, car);
-            System.out.print(car);
-            cursorPosition++;
-        } else {
-            // Desactivamos modo de inserccion (secuencia ANSI)
-            System.out.print("\u001b[4l");
+                line.setCharAt(cursorPosition, car);
+                System.out.print(car);
+                cursorPosition++;
+            } else {
+                // Desactivamos modo de inserccion (secuencia ANSI)
+                System.out.print("\u001b[4l");
 
-            line.insert(cursorPosition, car);
-            System.out.print(car);
-            cursorPosition++;
+                line.insert(cursorPosition, car);
+                System.out.print(car);
+                cursorPosition++;
+            }
         }
     }
     
