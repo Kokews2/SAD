@@ -33,18 +33,18 @@ public class Line {
     }
 
     public void home() {
-        cursorPosition = 0;
-
         // Movemos el cursor a la izquierda 'cursorPosition' veces (secuencia ANSI)
         System.out.print("\u001b[" + cursorPosition + "D");
+
+        cursorPosition = 0;
     }
 
     public void end() {
-        cursorPosition = line.length();
-
         // Movemos el cursor al final de la linea (secuencia ANSI)
         int posRestantes = line.length() - cursorPosition; 
         System.out.print("\u001b[" + posRestantes + "C");
+
+        cursorPosition = line.length();
     }
 
     public void insert() {
@@ -74,19 +74,17 @@ public class Line {
         if (cursorPosition <= line.length()) {
             if (insertMode) {
                 // Activamos modo de inserccion (secuencia ANSI)
-                System.out.println("\u001b[4h");
+                System.out.println("\u001b[4l");
             
                 line.setCharAt(cursorPosition, car);
-                System.out.print(car);
-                cursorPosition++;
             } else {
                 // Desactivamos modo de inserccion (secuencia ANSI)
-                System.out.print("\u001b[4l");
+                System.out.print("\u001b[4h");
 
                 line.insert(cursorPosition, car);
-                System.out.print(car);
-                cursorPosition++;
             }
+            System.out.print(car);
+            cursorPosition++;
         }
     }
     
