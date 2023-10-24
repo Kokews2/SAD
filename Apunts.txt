@@ -1,0 +1,16 @@
+REGULAR EXPRESSIONS
+
+A l'hora de fer Strings en els llenguatges de programació hi ha expressions regulars com les seguents.
+
+\\  --> Indica la barra '\'.
+[]  --> Una forma d'agrupar carácters que poden estar al String
+?   --> Indica opcionaliat de lo que precedeix
+
+EXEMPLE: [+-]? --> Indica que pot haver-hi un '+', un '-' o res (per la opcionalitat de ?)
+
+\\d --> Espera un dígit (0..9). En veritat seria '\d'.
+*   --> Iteració, zero o més.
++   --> Iteració, un o més.
+()  --> Crear un grup de captura
+
+EXEMPLE: [+-]? \\d*\\.?\\d+(?:[eE][+-]?\\d+)?

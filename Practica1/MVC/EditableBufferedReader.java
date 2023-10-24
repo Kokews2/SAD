@@ -8,7 +8,7 @@ public class EditableBufferedReader extends BufferedReader {
         super(in);
     }
 
-    public void setRaw() {
+    public static void setRaw() {
         try {
             // Creem un procés que executi la comana
             ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", "stty -echo raw</dev/tty");
@@ -21,7 +21,7 @@ public class EditableBufferedReader extends BufferedReader {
         }
     }
 
-    void unsetRaw() {
+    public static void unsetRaw() {
         try {
             // Creem un procés que executi la comana
             ProcessBuilder processBuilder = new ProcessBuilder("/bin/sh", "-c", "stty cooked echo </dev/tty");
@@ -47,6 +47,8 @@ public class EditableBufferedReader extends BufferedReader {
                     switch(lect = super.read()) {
                         case 'C': return KeyCar.M_RIGHT;
                         case 'D': return KeyCar.M_LEFT;
+                        case 'H': return KeyCar.M_HOME;
+                        case 'F': return KeyCar.M_END; 
                         case '1': 
                             if ((lect = super.read()) != '~')
                                 return lect;
@@ -65,14 +67,7 @@ public class EditableBufferedReader extends BufferedReader {
                             return KeyCar.M_END;
                         default: return lect;
                     }
-                case 'O':
-                    switch(lect = super.read()) {
-                        case 'H': return KeyCar.M_HOME;
-                        case 'F': return KeyCar.M_END; 
-                        default: return lect;
-                    } 
                 default: return lect;
-
             }
         } catch (IOException ex) {
             System.out.println("Interrupted Exception");
