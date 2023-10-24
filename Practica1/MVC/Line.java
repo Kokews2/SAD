@@ -1,15 +1,31 @@
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 public class Line {
 
     private StringBuffer line;
     private int cursorPosition;
     private boolean insertMode; 
 
+    private PropertyChangeSupport propertyChangeSupport;
+
     public Line() {
         line = new StringBuffer();
         cursorPosition = 0;
         insertMode = false;
+
+        propertyChangeSupport = new PropertyChangeSupport(this);
     }
     
+    // Métodos para manejar los oyentes de cambio de propiedad
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
     public int getCursorPosition() {
         return cursorPosition;
     }
