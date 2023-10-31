@@ -21,7 +21,7 @@ public class EchoClient{
             }
         }.start();
 
-        new Thread() {
+        /*new Thread() {
             public void run(){
                 
                 String line;
@@ -29,7 +29,16 @@ public class EchoClient{
                     System.out.println(line);
                 }
             }
-        }.start();
+        }.start();*/
+
+        new Thread() -> {
+                            
+                String line;
+                while((line = sc.readLine()) != null){
+                    System.out.println(line);
+                }
+        }.start(); 
+
 
     }
 
