@@ -6,14 +6,12 @@ public class Line {
     private StringBuffer line;
     private int cursorPosition;
     private boolean insertMode; 
-
     private PropertyChangeSupport propertyChangeSupport;
 
     public Line() {
         line = new StringBuffer();
         cursorPosition = 0;
         insertMode = false;
-
         propertyChangeSupport = new PropertyChangeSupport(this);
     }
     
@@ -26,40 +24,35 @@ public class Line {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
+    private void notifyLineChanged(String oldValue, String newValue) {
+        propertyChangeSupport.firePropertyChange("line", oldValue, newValue);
+    }
+
     public int getCursorPosition() {
         return cursorPosition;
     }
 
     public void moveCursorRight() {
         if (cursorPosition < line.length()) {
-            // Movemos cursor a la derecha (secuencia ANSI)
-            System.out.print("\u001b[1C");
-
+            notifyLineChanged(null, KeyCar.M_RIGHT)
             cursorPosition++;
         }
     }
     
     public void moveCursorLeft() {
         if (cursorPosition > 0) {
-            // Movemos cursor a la izquierda (secuencia ANSI)
-            System.out.print("\u001b[1D");
-
+            notifyLineChanged(null, KeyCar.M_LEFT)
             cursorPosition--;
         }
     }
 
     public void home() {
-        // Movemos el cursor a la izquierda 'cursorPosition' veces (secuencia ANSI)
-        System.out.print("\u001b[" + cursorPosition + "D");
-
+        notifyLineChanged(null, KeyCar.M_HOME)
         cursorPosition = 0;
     }
 
     public void end() {
-        // Movemos el cursor al final de la linea (secuencia ANSI)
-        int posRestantes = line.length() - cursorPosition; 
-        System.out.print("\u001b[" + posRestantes + "C");
-
+        notifyLineChanged(null, KeyCar.M_END)
         cursorPosition = line.length();
     }
 
@@ -69,35 +62,27 @@ public class Line {
 
     public void delete() {
         if (cursorPosition >= 0 && cursorPosition < line.length()) {
+            notifyLineChanged(null, KeyCar.M_DEL)
             line.deleteCharAt(cursorPosition);
-
-            // Eliminamos el caracter en la posicion actual del cursor y mover el texto (secuencia ANSI)
-            System.out.print("\u001b[P");
         }
     }
 
     public void deleteChar() {
         if (cursorPosition > 0 && cursorPosition <= line.length()) {
+            notifyLineChanged(null, KeyCar.M_DEL)
             line.deleteCharAt(cursorPosition - 1);
             moveCursorLeft();
-
-            // Eliminamos el caracter en la posicion actual del cursor y mover el texto (secuencia ANSI)
-            System.out.print("\u001b[P");
         }
     }
 
     public void addChar(char car) {
         if (insertMode && cursorPosition < line.length()) {
-            // Activamos modo de reemplazar (secuencia ANSI)
-            System.out.print("\u001b[4l");
-            
+            notifyLineChanged(null, KeyCar.M_INS)            
             line.setCharAt(cursorPosition, car);
             System.out.print(car);
             cursorPosition++;
         } else {
-            // Desactivamos modo de reemplazar (secuencia ANSI)
-            System.out.print("\u001b[4h");
-
+            notifyLineChanged(null, KeyCar.M_NOINS)
             line.insert(cursorPosition, car);
             System.out.print(car);
             cursorPosition++;

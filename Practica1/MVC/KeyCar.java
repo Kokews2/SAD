@@ -19,5 +19,6 @@ public class KeyCar {
     public final static int M_END = -4;
     public final static int M_RIGHT = -5;
     public final static int M_LEFT = -6;
+    public final static int M_NOINS = -7;
 }
 
