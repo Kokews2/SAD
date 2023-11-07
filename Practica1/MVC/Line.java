@@ -93,4 +93,9 @@ public class Line {
     public String toString() {
         return line.toString();
     }
+
+    @Override
+    public int length() {
+        return line.length();
+    }
 }
