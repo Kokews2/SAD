@@ -16,11 +16,15 @@ public class HelloWorldSwing {
 
         //Add the ubiquitous "Hello World" label to frame.
         JLabel label = new JLabel("Hello World Pau");
+        label.setHorizontaalAlignment(JLabel.CENTER);
         frame.getContentPane().add(label);
 
         //Display the window. set size and center
         frame.pack();
+        frame.setSize(100,200);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        
     }
 
     public static void main(String[] args) {
