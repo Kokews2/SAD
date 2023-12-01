@@ -39,7 +39,7 @@
       * Create and add the widgets.
       */
      private void addWidgets() {
-         //Create widgets.
+         /*/Create widgets.
          ...
  
          //Listen to events from the Convert button.
@@ -48,7 +48,7 @@
          //Add the widgets to the container.
          ...
          
-         ...
+         ...*/
      }
  
      public void actionPerformed(ActionEvent event) {

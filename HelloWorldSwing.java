@@ -11,12 +11,12 @@ public class HelloWorldSwing {
     private static void createAndShowGUI() {
 
         //Create and set up the window. Exit on close
-        Jframe frame = new Jframe("Hello World Swing");
-        frame.setDefaultCloseOperation(Jframe.EXIT_ON_CLOSE);
+        JFrame frame = new JFrame("Hello World Swing");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Add the ubiquitous "Hello World" label to frame.
         JLabel label = new JLabel("Hello World Pau");
-        label.setHorizontaalAlignment(JLabel.CENTER);
+        label.setHorizontalAlignment(JLabel.CENTER);
         frame.getContentPane().add(label);
 
         //Display the window. set size and center
