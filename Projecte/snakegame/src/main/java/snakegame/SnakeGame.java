@@ -1,39 +1,45 @@
-package Projecte.snakegame.src.main.java.snakegame;
+package snakegame;
 
 import javax.swing.*;
-
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SnakeGame implements ActionListener {
+public class SnakeGame {
 
-    private JFrame frame;
-    private Board board;
+    private int width = 640;    //Width of the window
+    private int height = 480;   //Height of the window
+    private int frequency = 50; //Frequency en ms
+
+    private Snake snake;
     private Timer timer;
 
     public SnakeGame() {
-        // creem l'objecte JFrame com a finestra principal del Joc
-        frame = new JFrame("Snake Game");
+        //Create and set up the window. Exit on close
+        JFrame frame = new JFrame("Snake Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
 
-        // creem el tauler del joc per on es mourá l'snake
-        board = new Board();
-        frame.getContentPane().add(board, BorderLayout.CENTER);; // afegim el tauler a la finestra del joc
+        //Add Snake
+        snake = new Snake(width/2, height/2);
+        frame.setContentPane(snake);
 
-        timer = new Timer(100, this); // actualitzar els events del joc cada 100ms (Aprofitar el ActionListener)
+        //Add the key events
+        Controller controller = new Controller(snake);
+        frame.addKeyListener(controller);
+
+        //Upload the game with Timer from Swing
+        timer = new Timer(frequency, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                snake.update(width, height);
+            }
+        });
         timer.start();
 
-        frame.pack(); // per redimensionar la finestra
+        //Display de window
+        frame.pack();
+        frame.setSize(width,height);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-    }
-
-    // per gestionar els events del temporitzador (anar actualitzant el joc segons els canvis)
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        board.moveSnake(); // actualitzar la posició del snake
-        board.repaint(); // dibuixar el tauler
     }
 
     public static void main(String[] args) {
