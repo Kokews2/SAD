@@ -38,6 +38,7 @@ public class SnakeGame {
         //Display de window
         frame.pack();
         frame.setSize(width,height);
+        
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

@@ -39,12 +39,14 @@ public class Snake extends JPanel {
         repaint();
     }
 
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) { // Pintem al cuc negre
         super.paintComponent(g);
-
-        g.setColor(Color.BLACK);
-        for (Point point : body) {
+        Integer i=0;
+        for (Point point : body) {            
+            if(i%2 == 0) g.setColor(Color.GREEN);
+            if(i%2 == 1)g.setColor(Color.YELLOW);
             g.fillRect(point.x, point.y, width, heigth);
+            i++;
         }
     }
 
@@ -54,30 +56,30 @@ public class Snake extends JPanel {
         switch (direction) {
             case UP:
                 newHead.y = newHead.y - this.heigth;
-                if(newHead.y < 0)
+                if (newHead.y < 0)
                     newHead.y = heightWnd - this.heigth;
-                if(newHead.y > heightWnd)
+                if (newHead.y > heightWnd)
                     newHead.y = 0;
                 break;
             case RIGHT:
                 newHead.x = newHead.x + this.width;
-                if(newHead.x < 0)
+                if (newHead.x < 0)
                     newHead.x = widthWnd - this.width;
-                if(newHead.x > widthWnd)
+                if (newHead.x > widthWnd)
                     newHead.x = 0;
                 break;
             case DOWN:
                 newHead.y = newHead.y + this.heigth;
-                if(newHead.y < 0)
+                if (newHead.y < 0)
                     newHead.y = heightWnd - this.heigth;
-                if(newHead.y > heightWnd)
+                if (newHead.y > heightWnd)
                     newHead.y = 0;
                 break;
             case LEFT:
                 newHead.x = newHead.x - this.width;
-                if(newHead.x < 0)
+                if (newHead.x < 0)
                     newHead.x = widthWnd - this.width;
-                if(newHead.x > widthWnd)
+                if (newHead.x > widthWnd)
                     newHead.x = 0;
                 break;
         }
