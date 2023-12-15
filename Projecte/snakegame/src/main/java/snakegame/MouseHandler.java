@@ -1,4 +1,4 @@
-package Projecte.snakegame.src.main.java.snakegame;
+package snakegame;
 
 public class MouseHandler {
     

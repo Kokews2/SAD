@@ -1,28 +1,27 @@
-package Projecte.snakegame.src.main.java.snakegame;
+package snakegame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class Board extends JPanel implements KeyListener {
+public class Board extends JPanel {
 
     private Snake snake;
+    private Point food;
 
     public Board() {
         super(new BorderLayout());
 
-        snake = new Snake();
-        addKeyListener(this); // permet que pugui adonarse dels nous events (tecles polsades)
+        snake = new Snake(5, 5);
+
+        placeFood(); // posem el menjar aleatoriament al tauler
     }
 
     public void moveSnake() {
-        snake.move();
         checkCollisions();
     }
 
     private void checkCollisions() {
-        if (snake.collidesWithFood()) {
+        if (snake.collidesWithFood(food)) {
             snake.grow();
             placeFood();
         } else if (snake.collidesWithSelf() || snake.collidesWithBorder(getWidth(), getHeight())) {
@@ -31,7 +30,10 @@ public class Board extends JPanel implements KeyListener {
     }
 
     private void placeFood() {
-        // Colocar el menjar
+        int x = (int) (Math.random() * this.getWidth());
+        int y = (int) (Math.random() * this.getHeight());
+
+        food = new Point(x,y);
     }
 
     private void gameOver() {
@@ -42,22 +44,11 @@ public class Board extends JPanel implements KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        snake.draw(g);
-        // falta dibuixar el menjar
+        drawFood(g);
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        // falta gestionar les tecles polsades
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // no l'utilizem pero es necesari per KeyListener
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // no l'utilizem pero es necesari per KeyListener
+    private void drawFood(Graphics g) {
+        g.setColor(Color.RED);
+        g.fillRect(food.x * 20, food.y * 20, 20, 20);
     }
 }
