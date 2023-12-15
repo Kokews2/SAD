@@ -4,51 +4,37 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Board extends JPanel {
-
+    
     private Snake snake;
-    private Point food;
+    private Food food;
 
-    public Board() {
-        super(new BorderLayout());
-
-        snake = new Snake(5, 5);
-
-        placeFood(); // posem el menjar aleatoriament al tauler
-    }
-
-    public void moveSnake() {
-        checkCollisions();
-    }
-
-    private void checkCollisions() {
-        if (snake.collidesWithFood(food)) {
-            snake.grow();
-            placeFood();
-        } else if (snake.collidesWithSelf() || snake.collidesWithBorder(getWidth(), getHeight())) {
-            gameOver();
-        }
-    }
-
-    private void placeFood() {
-        int x = (int) (Math.random() * this.getWidth());
-        int y = (int) (Math.random() * this.getHeight());
-
-        food = new Point(x,y);
-    }
-
-    private void gameOver() {
-        System.out.println("Game Over");
-        System.exit(0);
+    public Board(Snake snake, Food food) {
+        this.snake = snake;
+        this.food = food;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        drawSnake(g);
         drawFood(g);
     }
 
-    private void drawFood(Graphics g) {
-        g.setColor(Color.RED);
-        g.fillRect(food.x * 20, food.y * 20, 20, 20);
+    private void drawSnake(Graphics g) {
+        int i=0;
+        for (Point point : snake.getBody()) {            
+            if(i%2 == 0) g.setColor(Color.GREEN);
+            if(i%2 == 1)g.setColor(Color.YELLOW);
+            g.fillRect(point.x, point.y, snake.getWidth(), snake.getHeight());
+            i++;
+        }
     }
+
+    private void drawFood(Graphics g) {
+        Point food = this.food.getFood();
+        g.setColor(Color.RED);
+        g.fillRect(food.x, food.y, this.food.getWidth(), this.food.getHeight());
+    }
+
 }

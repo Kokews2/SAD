@@ -3,18 +3,16 @@ package snakegame;
 import java.awt.*;
 import java.util.LinkedList;
 
-import javax.swing.JPanel;
+public class Snake {
 
-public class Snake extends JPanel {
-
-    // constants per les direccions de la serp
+    //Snake direction constants
     public static final int UP = 0;
     public static final int RIGHT = 1;
     public static final int DOWN = 2;
     public static final int LEFT = 3;
 
-    private LinkedList<Point> body; // cos de la serp on 'Point' indica la posició del tauler
-    private int direction; // cap a on mira la serp
+    private LinkedList<Point> body;
+    private int direction;
     private int width = 10;
     private int heigth = 10;
 
@@ -34,20 +32,16 @@ public class Snake extends JPanel {
         return direction;
     }
 
-    public void update(int widthWnd, int heightWnd) {
-        move(widthWnd, heightWnd);
-        repaint();
+    public LinkedList<Point> getBody() {
+        return body;
     }
 
-    public void paintComponent(Graphics g) { // Pintem al cuc negre
-        super.paintComponent(g);
-        Integer i=0;
-        for (Point point : body) {            
-            if(i%2 == 0) g.setColor(Color.GREEN);
-            if(i%2 == 1)g.setColor(Color.YELLOW);
-            g.fillRect(point.x, point.y, width, heigth);
-            i++;
-        }
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return heigth;
     }
 
     public void move(int widthWnd, int heightWnd) {
@@ -93,9 +87,9 @@ public class Snake extends JPanel {
         body.addLast(newtail);
     }
 
-    public boolean collidesWithFood(Point food) {
-        Rectangle headRect = new Rectangle(body.getFirst().x, body.getFirst().y, 20, 20);
-        Rectangle foodRect = new Rectangle(food.x, food.y, 20, 20);
+    public boolean collidesWithFood(Food food) {
+        Rectangle headRect = new Rectangle(body.getFirst().x, body.getFirst().y, width, heigth);
+        Rectangle foodRect = new Rectangle(food.getFood().x, food.getFood().y, 20, 20);
         return headRect.intersects(foodRect);
     }
 
@@ -107,10 +101,5 @@ public class Snake extends JPanel {
             }
         }
         return false;
-    }
-
-    public boolean collidesWithBorder(int boardWidth, int boardHeight) {
-        Point head = body.getFirst();
-        return head.x < 0 || head.x >= boardWidth || head.y < 0 || head.y >= boardHeight;
     }
 }
