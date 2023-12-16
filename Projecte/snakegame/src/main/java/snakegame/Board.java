@@ -26,9 +26,9 @@ public class Board extends JPanel {
         for (Point point : snake.getBody()) {            
             if(i%2 == 0) g.setColor(Color.GREEN);
             if(i%2 == 1)g.setColor(Color.YELLOW);
-            g.fillRect(point.x, point.y, snake.getWidth(), snake.getHeight());
+            g.fillOval(point.x, point.y, snake.getWidth(), snake.getHeight());
             i++;
-        }
+        }        
     }
 
     private void drawFood(Graphics g) {

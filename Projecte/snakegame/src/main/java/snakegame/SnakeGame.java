@@ -15,9 +15,9 @@ public class SnakeGame {
     private Food food;
     private Board board;
     private Timer timer;
-
+º
     public SnakeGame() {
-        //Create and set up the window. Exit on close
+        //Creem i configurem la finestra. Sortir al tancar
         JFrame frame = new JFrame("Snake Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -29,11 +29,11 @@ public class SnakeGame {
         //Add Board
         frame.setContentPane(board);
 
-        //Add the key events
+        //Afegir els key events
         Controller controller = new Controller(snake);
         frame.addKeyListener(controller);
 
-        //Upload the game with Timer from Swing
+        //Posar el joc amb Timer de Swing
         timer = new Timer(frequency, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,7 +42,7 @@ public class SnakeGame {
         });
         timer.start();
 
-        //Display de window
+        //Mostrar finestra
         frame.pack();
         frame.setSize(width,height);
         
