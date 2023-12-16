@@ -1,7 +1,6 @@
 package snakegame;
 
 import javax.swing.*;
-import java.awt.event.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +10,7 @@ public class SnakeGame {
     private int width = 640;    //Width of the window
     private int height = 480;   //Height of the window
     private int frequency = 50; //Frequency en ms
-    private int score = 80;
+    private int score = 0;
 
     private JFrame frame;
     private Controller controller;
