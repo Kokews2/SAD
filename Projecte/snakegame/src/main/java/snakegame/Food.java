@@ -28,18 +28,9 @@ public class Food {
     public void placeFood(int widthWnd, int heightWnd) {
         Random rnd = new Random();
 
-        int x = rnd.nextInt(widthWnd);
-        if((x % 5) > 0)
-            x = x - (x % 5);
-        if(x < 5)
-            x = x + 10;
+        int x = rnd.nextInt(widthWnd / 10) * 10; // Assegura que x es múltiple de 10
+        int y = rnd.nextInt(heightWnd / 10) * 10; // Assegura que y es múltiple de 10
 
-        int y = rnd.nextInt(heightWnd);
-        if((y % 5) > 0)
-            y = y - (y % 5);
-        if(y < 5)
-            y = y + 10;
-
-        food = new Point(x,y);
+        food = new Point(x, y);
     }
 }

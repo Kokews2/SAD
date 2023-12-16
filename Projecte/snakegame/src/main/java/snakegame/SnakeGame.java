@@ -2,6 +2,7 @@ package snakegame;
 
 import javax.swing.*;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,17 +12,43 @@ public class SnakeGame {
     private int height = 480;   //Height of the window
     private int frequency = 50; //Frequency en ms
 
+    private JFrame frame;
+
     private Snake snake;
     private Food food;
     private Board board;
     private Timer timer;
-º
+
     public SnakeGame() {
         //Creem i configurem la finestra. Sortir al tancar
-        JFrame frame = new JFrame("Snake Game");
+        frame = new JFrame("Snake Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Start Game
+        //Creem el botó per iniciar el joc
+        JButton startButton = new JButton("Start");
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startGame();
+                startButton.setEnabled(false);
+            }
+        });
+
+        //Afegim un menu
+        JPanel menu = new JPanel();
+        menu.add(startButton, BorderLayout.CENTER);
+
+        //Afegim el botó al Frame
+        frame.getContentPane().add(menu, "North");
+
+        //Mostrar finestra
+        frame.setSize(width,height);        
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public void startGame() {
+        //Instanciem els elements del joc
         snake = new Snake(width/2, height/2);
         food = new Food(width, height);
         board = new Board(snake, food);
@@ -42,12 +69,10 @@ public class SnakeGame {
         });
         timer.start();
 
-        //Mostrar finestra
-        frame.pack();
-        frame.setSize(width,height);
-        
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        frame.setFocusable(true);  // Permitim que el frame tingui el focus del Listener
+        frame.requestFocusInWindow();  // Demanem que sigui el focus del Listener
+
+        frame.revalidate();
     }
 
     public void update(int width, int height) {
@@ -67,6 +92,7 @@ public class SnakeGame {
 
     private void gameOver() {
         timer.stop();
+        JOptionPane.showMessageDialog(frame, "Game Over!");
     }
 
     public static void main(String[] args) {

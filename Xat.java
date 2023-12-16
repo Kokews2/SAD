@@ -34,7 +34,7 @@ public class Xat {
 
         // Create an input JPanel and add a JTextField(25) and a JButton
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new BoxLayout(outputPanel, BoxLayout.PAGE_AXIS));
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.PAGE_AXIS));
         JTextField messageField = new JTextField(25);
         JButton sendButton = new JButton("Enviar");
         inputPanel.add(messageField, BorderLayout.CENTER);

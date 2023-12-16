@@ -89,7 +89,7 @@ public class Snake {
 
     public boolean collidesWithFood(Food food) {
         Rectangle headRect = new Rectangle(body.getFirst().x, body.getFirst().y, width, heigth);
-        Rectangle foodRect = new Rectangle(food.getFood().x, food.getFood().y, 20, 20);
+        Rectangle foodRect = new Rectangle(food.getFood().x, food.getFood().y, food.getWidth(), food.getHeight());
         return headRect.intersects(foodRect);
     }
 
