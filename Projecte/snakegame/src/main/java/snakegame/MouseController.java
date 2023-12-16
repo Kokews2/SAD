@@ -5,56 +5,50 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class MouseController extends JFrame implements ActionListener {
+public class MouseController implements ActionListener {
 
     private JButton botonUP, botonRight, botonLeft, botonDOWN;
     private Snake snake;
+    private JFrame frame;
 
-    public MouseController(Snake snake) {
+    public MouseController(Snake snake, JFrame frame) {
         this.snake = snake;
+        this.frame = frame;
+        BotonesClick();
     }
 
     public void BotonesClick() {
 
-        // Layout absoluto
-        setLayout(null);
-
-        // Tamaño de la ventana
-        setBounds(0, 0, 640, 480);
-
-        // No redimensionable
-        setResizable(false);
-
-        // Cerrar proceso al cerrar la ventana
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
         // Boton UP
         botonUP = new JButton();
         botonUP.setBounds(0, 0, 640, 240);
-        add(botonUP);
+        frame.add(botonUP);
+        botonUP.setVisible(false);
         botonUP.addActionListener(this);
 
         // Boton DOWN
         botonDOWN = new JButton();
         botonDOWN.setBounds(0, 240, 640, 240);
-        add(botonDOWN);
+        frame.add(botonDOWN);
+        botonDOWN.setVisible(false);
         botonDOWN.addActionListener(this);
 
         // Boton RIGHT
         botonRight = new JButton();
         botonRight.setBounds(0, 0, 320, 480);
-        add(botonRight);
+        frame.add(botonRight);
+        botonRight.setVisible(false);
         botonRight.addActionListener(this);
 
         // Boton LEFT
         botonLeft = new JButton();
         botonLeft.setBounds(0, 320, 320, 480);
-        add(botonLeft);
+        frame.add(botonLeft);
+        botonLeft.setVisible(false);
         botonLeft.addActionListener(this);
 
-        // Volem que estigui tot
-         setVisible(true);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         
