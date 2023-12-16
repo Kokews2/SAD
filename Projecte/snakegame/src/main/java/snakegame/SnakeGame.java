@@ -11,6 +11,7 @@ public class SnakeGame {
     private int width = 640;    //Width of the window
     private int height = 480;   //Height of the window
     private int frequency = 50; //Frequency en ms
+    private int score = 0;
 
     private JFrame frame;
 
@@ -57,7 +58,7 @@ public class SnakeGame {
         //Instanciem els elements del joc
         snake = new Snake(width/2, height/2);
         food = new Food(width, height);
-        board = new Board(snake, food);
+        board = new Board(snake, food, score);
 
         //Add Board
         frame.getContentPane().add(board);
@@ -84,13 +85,14 @@ public class SnakeGame {
     public void update(int width, int height) {
         snake.move(width, height);
         checkCollisions(food);
-        board.repaint();
+        board.update(score);
     }
 
     private void checkCollisions(Food food) {
         if (snake.collidesWithFood(food)) {
             snake.grow();
-            food.placeFood(width, height);  // Coloca nueva comida en el tablero
+            food.placeFood(width, height);
+            score += 10;
         } else if (snake.collidesWithSelf()) {
             gameOver();
         }
@@ -100,13 +102,13 @@ public class SnakeGame {
         timer.stop();
         
         JPanel gameOverPanel = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("Game Over!", SwingConstants.CENTER);
+        JLabel label = new JLabel("Game Over! Score: " + score);
         gameOverPanel.add(label, BorderLayout.CENTER);
 
         int option = JOptionPane.showOptionDialog(
             frame,
+            gameOverPanel,
             "Game Over!",
-            "Game Over",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.INFORMATION_MESSAGE,
             null,

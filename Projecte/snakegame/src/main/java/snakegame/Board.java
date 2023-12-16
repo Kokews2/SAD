@@ -7,10 +7,17 @@ public class Board extends JPanel {
     
     private Snake snake;
     private Food food;
+    private int score;
 
-    public Board(Snake snake, Food food) {
+    public Board(Snake snake, Food food, int score) {
         this.snake = snake;
         this.food = food;
+        this.score = score;
+    }
+
+    public void update(int score) {
+        this.score = score;
+        repaint();
     }
 
     @Override
@@ -19,6 +26,7 @@ public class Board extends JPanel {
 
         drawSnake(g);
         drawFood(g);
+        drawScore(g);
     }
 
     private void drawSnake(Graphics g) {
@@ -35,6 +43,11 @@ public class Board extends JPanel {
         Point food = this.food.getFood();
         g.setColor(Color.RED);
         g.fillRect(food.x, food.y, this.food.getWidth(), this.food.getHeight());
+    }
+
+    public void drawScore(Graphics g) {
+        g.setColor(Color.GRAY);
+        g.drawString("Score: " + score, 10, 20);
     }
 
 }
