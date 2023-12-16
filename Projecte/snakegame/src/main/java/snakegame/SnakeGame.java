@@ -1,7 +1,7 @@
 package snakegame;
 
 import javax.swing.*;
-
+import java.awt.event.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,6 +66,9 @@ public class SnakeGame {
         //Afegir els key events
         Controller controller = new Controller(snake);
         frame.addKeyListener(controller);
+        //Afegim entrada en ratoli
+        Ratoli mousecontroller = new Ratoli(snake, frame);
+        board.addMouseListener(mousecontroller);
 
         //Posar el joc amb Timer de Swing
         timer = new Timer(frequency, new ActionListener() {
