@@ -6,9 +6,14 @@ import java.awt.event.KeyEvent;
 public class Controller implements KeyListener {
 
     private Snake snake;
+    private Snake snake2;
 
     public Controller(Snake snake) {
         this.snake = snake;
+    }
+
+    public void setSnake2(Snake snake2) {
+        this.snake2 = snake2;
     }
 
     @Override
@@ -33,6 +38,22 @@ public class Controller implements KeyListener {
             case KeyEvent.VK_D:
                 if(snake.getDirection() != Snake.LEFT)
                     snake.setDirection(Snake.RIGHT);
+                break;
+                case KeyEvent.VK_UP:
+                if (snake2.getDirection() != Snake.DOWN)
+                    snake2.setDirection(Snake.UP);
+                break;
+            case KeyEvent.VK_LEFT:
+                if (snake2.getDirection() != Snake.RIGHT)
+                    snake2.setDirection(Snake.LEFT);
+                break;
+            case KeyEvent.VK_DOWN:
+                if (snake2.getDirection() != Snake.UP)
+                    snake2.setDirection(Snake.DOWN);
+                break;
+            case KeyEvent.VK_RIGHT:
+                if (snake2.getDirection() != Snake.LEFT)
+                    snake2.setDirection(Snake.RIGHT);
                 break;
         }
     }

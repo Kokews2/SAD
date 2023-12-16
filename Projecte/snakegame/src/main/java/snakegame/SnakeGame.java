@@ -11,14 +11,18 @@ public class SnakeGame {
     private int width = 640;    //Width of the window
     private int height = 480;   //Height of the window
     private int frequency = 50; //Frequency en ms
-    private int score = 0;
+    private int score = 80;
 
     private JFrame frame;
+    private Controller controller;
 
     private Snake snake;
     private Food food;
     private Board board;
     private Timer timer;
+
+    private Snake snake2;
+    private boolean snake2Appeared = false;
 
     public SnakeGame() {
         // Decorem la finestra
@@ -64,7 +68,7 @@ public class SnakeGame {
         frame.getContentPane().add(board);
 
         //Afegir els key events
-        Controller controller = new Controller(snake);
+        controller = new Controller(snake);
         frame.addKeyListener(controller);
         //Afegim entrada en ratoli
         Ratoli mousecontroller = new Ratoli(snake, frame);
@@ -87,11 +91,25 @@ public class SnakeGame {
 
     public void update(int width, int height) {
         snake.move(width, height);
-        checkCollisions(food);
+
+        // Condició perque aparegui el segon snake
+        if (score >= 100 && !snake2Appeared) {
+            snake2 = new Snake(3*width / 4, height / 2);
+            board.setSnake2(snake2);
+            controller.setSnake2(snake2);
+            snake2Appeared = true;
+        }
+
+        if (snake2Appeared) {
+            snake2.move(width, height);
+            checkCollisions(food, snake2);
+        }
+
+        checkCollisions(food, snake);
         board.update(score);
     }
 
-    private void checkCollisions(Food food) {
+    private void checkCollisions(Food food, Snake snake) {
         if (snake.collidesWithFood(food)) {
             snake.grow();
             food.placeFood(width, height);

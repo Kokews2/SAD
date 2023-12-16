@@ -1,11 +1,7 @@
 package snakegame;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.PointerInfo;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
-
 
 
 public class Ratoli implements MouseListener{

@@ -6,6 +6,7 @@ import java.awt.*;
 public class Board extends JPanel {
     
     private Snake snake;
+    private Snake snake2 = null;
     private Food food;
     private int score;
 
@@ -13,6 +14,10 @@ public class Board extends JPanel {
         this.snake = snake;
         this.food = food;
         this.score = score;
+    }
+
+    public void setSnake2(Snake snake2) {
+        this.snake2 = snake2;
     }
 
     public void update(int score) {
@@ -24,17 +29,29 @@ public class Board extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        drawSnake(g);
+        drawSnake1(g);
+        if(snake2 != null)
+            drawSnake2(g);
         drawFood(g);
         drawScore(g);
     }
 
-    private void drawSnake(Graphics g) {
+    private void drawSnake1(Graphics g) {
         int i=0;
         for (Point point : snake.getBody()) {            
             if(i%2 == 0) g.setColor(Color.GREEN);
             if(i%2 == 1)g.setColor(Color.YELLOW);
             g.fillOval(point.x, point.y, snake.getWidth(), snake.getHeight());
+            i++;
+        }        
+    }
+
+    private void drawSnake2(Graphics g) {
+        int i=0;
+        for (Point point : snake2.getBody()) {            
+            if(i%2 == 0) g.setColor(Color.BLUE);
+            if(i%2 == 1)g.setColor(Color.MAGENTA);
+            g.fillOval(point.x, point.y, snake2.getWidth(), snake2.getHeight());
             i++;
         }        
     }
