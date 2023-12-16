@@ -1,13 +1,13 @@
 package snakegame;
 
 import java.awt.event.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
-public class MouseController extends JFrame implements ActionListener{
-    
-    private JButton botonUP,botonRight,botonLeft,botonDOWN;
+public class MouseController extends JFrame implements ActionListener {
+
+    private JButton botonUP, botonRight, botonLeft, botonDOWN;
     private Snake snake;
 
     public MouseController(Snake snake) {
@@ -16,49 +16,60 @@ public class MouseController extends JFrame implements ActionListener{
 
     public void BotonesClick() {
 
-        //Layout absoluto
+        // Layout absoluto
         setLayout(null);
-    
-        //Tamaño de la ventana
-        setBounds(0,0,640,480);
-    
-    
-        //No redimensionable
-        setResizable(false);
-    
-        //Cerrar proceso al cerrar la ventana
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-    
-        //Botones
-        botonUP=new JButton();
-        boton1.setBounds(10,100,90,30);
-        add(boton1);
-        boton1.addActionListener(this);
-        
-        boton2=new JButton("2");
-        boton2.setBounds(110,100,90,30);
-        add(boton2);
-        boton2.addActionListener(this);
-        boton3=new JButton("3");
-        boton3.setBounds(210,100,90,30);
-        add(boton3);
-        boton3.addActionListener(this);
-    
-        //Muestro JFrame (lo último para que lo pinte todo correctamanete)
-        //setVisible(true);
-        }
 
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource()==boton1) {
-              setTitle("boton 1");
-            }
-            if (e.getSource()==boton2) {
-              setTitle("boton 2");
-            }
-            if (e.getSource()==boton3) {
-              setTitle("boton 3");
-            }
-          }
+        // Tamaño de la ventana
+        setBounds(0, 0, 640, 480);
+
+        // No redimensionable
+        setResizable(false);
+
+        // Cerrar proceso al cerrar la ventana
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // Boton UP
+        botonUP = new JButton();
+        botonUP.setBounds(0, 0, 640, 240);
+        add(botonUP);
+        botonUP.addActionListener(this);
+
+        // Boton DOWN
+        botonDOWN = new JButton();
+        botonDOWN.setBounds(0, 240, 640, 240);
+        add(botonDOWN);
+        botonDOWN.addActionListener(this);
+
+        // Boton RIGHT
+        botonRight = new JButton();
+        botonRight.setBounds(0, 0, 320, 480);
+        add(botonRight);
+        botonRight.addActionListener(this);
+
+        // Boton LEFT
+        botonLeft = new JButton();
+        botonLeft.setBounds(0, 320, 320, 480);
+        add(botonLeft);
+        botonLeft.addActionListener(this);
+
+        // Volem que estigui tot
+         setVisible(true);
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+        if (e.getSource() == botonUP && snake.getDirection()!= Snake.DOWN) {
+            snake.setDirection(Snake.UP);
+        }    
+        if (e.getSource() == botonDOWN && snake.getDirection()!= Snake.UP) {
+            snake.setDirection(Snake.DOWN);
+        }  
+        if (e.getSource() == botonRight && snake.getDirection()!= Snake.LEFT) {
+            snake.setDirection(Snake.RIGHT);
+        }  
+        if (e.getSource() == botonLeft && snake.getDirection()!= Snake.RIGHT) {
+            snake.setDirection(Snake.LEFT);
+        }  
+    }
 
 }
-
