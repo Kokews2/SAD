@@ -23,7 +23,42 @@ public class Ratoli implements MouseListener{
     public void mouseClicked(MouseEvent e){
         double x = e.getX();
         double y = e.getY();
-        
+        if (x<frame.getWidth()/2 && (snake.getDirection()!= Snake.LEFT || snake.getDirection()!=Snake.RIGHT)) {
+            snake.setDirection(Snake.LEFT);
+        }    
+        if (x>frame.getWidth()/2 && (snake.getDirection()!= Snake.LEFT || snake.getDirection()!=Snake.RIGHT)) {
+            snake.setDirection(Snake.RIGHT);
+        }      
+        if (y<frame.getHeight()/2 && (snake.getDirection()!= Snake.UP || snake.getDirection()!=Snake.DOWN)) {
+            snake.setDirection(Snake.UP);
+        }    
+        if (y>frame.getHeight()/2 && (snake.getDirection()!= Snake.UP || snake.getDirection()!=Snake.DOWN)) {
+            snake.setDirection(Snake.DOWN);
+        }    
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'mousePressed'");
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'mouseReleased'");
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'mouseEntered'");
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'mouseExited'");
     }
 
 }
