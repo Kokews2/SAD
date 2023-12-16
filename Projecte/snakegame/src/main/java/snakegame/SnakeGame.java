@@ -20,6 +20,9 @@ public class SnakeGame {
     private Timer timer;
 
     public SnakeGame() {
+        // Decorem la finestra
+        JFrame.setDefaultLookAndFeelDecorated(true);
+
         //Creem i configurem la finestra. Sortir al tancar
         frame = new JFrame("Snake Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,13 +51,16 @@ public class SnakeGame {
     }
 
     public void startGame() {
+        // Eliminar el menú cuando comienza el juego
+        frame.getContentPane().removeAll();
+
         //Instanciem els elements del joc
         snake = new Snake(width/2, height/2);
         food = new Food(width, height);
         board = new Board(snake, food);
 
         //Add Board
-        frame.setContentPane(board);
+        frame.getContentPane().add(board);
 
         //Afegir els key events
         Controller controller = new Controller(snake);
@@ -92,7 +98,28 @@ public class SnakeGame {
 
     private void gameOver() {
         timer.stop();
-        JOptionPane.showMessageDialog(frame, "Game Over!");
+        
+        JPanel gameOverPanel = new JPanel(new BorderLayout());
+        JLabel label = new JLabel("Game Over!", SwingConstants.CENTER);
+        gameOverPanel.add(label, BorderLayout.CENTER);
+
+        int option = JOptionPane.showOptionDialog(
+            frame,
+            "Game Over!",
+            "Game Over",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.INFORMATION_MESSAGE,
+            null,
+            new Object[]{"Retry", "Exit"},
+            "Retry");
+
+            if (option == 0) {
+                // Si se hace clic en "Retry", reiniciar el juego
+                startGame();
+            } else {
+                // Si se hace clic en "Exit" o se cierra el cuadro de diálogo, salir del juego
+                System.exit(0);
+            }
     }
 
     public static void main(String[] args) {
