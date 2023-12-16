@@ -24,11 +24,11 @@ public class SnakeGame {
         // Decorem la finestra
         JFrame.setDefaultLookAndFeelDecorated(true);
 
-        //Creem i configurem la finestra. Sortir al tancar
+        // Creem i configurem la finestra. Sortir al tancar
         frame = new JFrame("Snake Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Creem el botó per iniciar el joc
+        // Creem el botó per iniciar el joc
         JButton startButton = new JButton("Start");
         startButton.addActionListener(new ActionListener() {
             @Override
@@ -38,14 +38,14 @@ public class SnakeGame {
             }
         });
 
-        //Afegim un menu
+        // Afegim un menu
         JPanel menu = new JPanel();
         menu.add(startButton, BorderLayout.CENTER);
 
-        //Afegim el botó al Frame
+        // Afegim el botó al Frame
         frame.getContentPane().add(menu, "North");
 
-        //Mostrar finestra
+        // Mostrar finestra
         frame.setSize(width,height);        
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
