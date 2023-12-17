@@ -79,8 +79,9 @@ public class SnakeGame {
         //Afegir els key events
         controller = new Controller(snake);
         frame.addKeyListener(controller);
+        
         //Afegim entrada en ratoli
-        Ratoli mousecontroller = new Ratoli(snake, frame);
+        Ratoli mousecontroller = new Ratoli(snake, board);
         board.addMouseListener(mousecontroller);
 
         //Posar el joc amb Timer de Swing
