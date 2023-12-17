@@ -16,52 +16,29 @@ public class Controller implements KeyListener {
         this.snake2 = snake2;
     }
 
+    private void handleDirectionChange(int key, Snake currentSnake, int upKey, int leftKey, int downKey, int rightKey) {       
+        if (key == upKey && currentSnake.getDirection() != Snake.DOWN) {
+            currentSnake.setDirection(Snake.UP);
+        } else if (key == leftKey && currentSnake.getDirection() != Snake.RIGHT) {
+            currentSnake.setDirection(Snake.LEFT);
+        } else if (key == downKey && currentSnake.getDirection() != Snake.UP) {
+            currentSnake.setDirection(Snake.DOWN);
+        } else if (key == rightKey && currentSnake.getDirection() != Snake.LEFT) {
+            currentSnake.setDirection(Snake.RIGHT);
+        }
+    }
+
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
+
         switch (key) {
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);
                 break;
-            case KeyEvent.VK_W:
-                if(snake.getDirection() != Snake.DOWN) 
-                    snake.setDirection(Snake.UP);
-                break;
-            case KeyEvent.VK_A:
-                if(snake.getDirection() != Snake.RIGHT)
-                    snake.setDirection(Snake.LEFT);
-                break;
-            case KeyEvent.VK_S:
-                if(snake.getDirection() != Snake.UP)
-                    snake.setDirection(Snake.DOWN);
-                break;
-            case KeyEvent.VK_D:
-                if(snake.getDirection() != Snake.LEFT)
-                    snake.setDirection(Snake.RIGHT);
-                break;
-                case KeyEvent.VK_UP:
-                if (snake2 != null) {
-                    if (snake2.getDirection() != Snake.DOWN)
-                        snake2.setDirection(Snake.UP);
-                }
-                break;
-            case KeyEvent.VK_LEFT:
-                if (snake2 != null) {
-                    if (snake2.getDirection() != Snake.RIGHT)
-                        snake2.setDirection(Snake.LEFT);
-                }
-                break;
-            case KeyEvent.VK_DOWN:
-                if (snake2 != null) {
-                    if (snake2.getDirection() != Snake.UP)
-                        snake2.setDirection(Snake.DOWN);
-                }
-                break;
-            case KeyEvent.VK_RIGHT:
-                if (snake2 != null) {
-                    if (snake2.getDirection() != Snake.LEFT)
-                        snake2.setDirection(Snake.RIGHT);
-                }
+            default:
+                handleDirectionChange(key, snake, KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D);
+                if (snake2 != null) handleDirectionChange(key, snake2, KeyEvent.VK_UP, KeyEvent.VK_LEFT, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT);
                 break;
         }
     }

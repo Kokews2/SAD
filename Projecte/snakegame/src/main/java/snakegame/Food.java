@@ -9,7 +9,10 @@ public class Food {
     private int width = 10;
     private int heigth = 10;
 
+    private Random rnd;
+
     public Food(int widthWnd, int heightWnd) {
+        rnd = new Random();
         placeFood(widthWnd, heightWnd);
     }
 
@@ -26,10 +29,8 @@ public class Food {
     }
 
     public void placeFood(int widthWnd, int heightWnd) {
-        Random rnd = new Random();
-
-        int x = rnd.nextInt(widthWnd / width) * width; // Assegura que x es múltiple de width
-        int y = rnd.nextInt(heightWnd / heigth) * heigth; // Assegura que y es múltiple de heigth
+        int x = rnd.nextInt(widthWnd / width) * width;      // Assegura que x es múltiple de width
+        int y = rnd.nextInt(heightWnd / heigth) * heigth;   // Assegura que y es múltiple de heigth
 
         food = new Point(x, y);
     }

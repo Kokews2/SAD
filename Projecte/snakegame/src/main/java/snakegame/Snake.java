@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class Snake {
 
-    //Snake direction constants
+    // Direccions de la snake
     public static final int UP = 0;
     public static final int RIGHT = 1;
     public static final int DOWN = 2;
@@ -56,36 +56,31 @@ public class Snake {
     public void move(int widthWnd, int heightWnd) {
         Point head = body.getFirst();
         Point newHead = new Point(head);
+
+        // Implementem que si es surt dels límits, aparegui en el lloc contrari
         switch (direction) {
             case UP:
-                newHead.y = newHead.y - this.height;
-                if (newHead.y < 0)
-                    newHead.y = heightWnd - this.height;
+                newHead.y = (newHead.y - this.height + heightWnd) % heightWnd;
                 break;
             case RIGHT:
-                newHead.x = newHead.x + this.width;
-                if (newHead.x > widthWnd)
-                    newHead.x = 0;
+                newHead.x = (newHead.x + this.width) % widthWnd;
                 break;
             case DOWN:
-                newHead.y = newHead.y + this.height;
-                if (newHead.y > heightWnd)
-                    newHead.y = 0;
+                newHead.y = (newHead.y + this.height) % heightWnd;
                 break;
             case LEFT:
-                newHead.x = newHead.x - this.width;
-                if (newHead.x < 0)
-                    newHead.x = widthWnd - this.width;
+                newHead.x = (newHead.x - this.width + widthWnd) % widthWnd;
                 break;
         }
+
         body.addFirst(newHead);
         body.removeLast();
     }
 
     public void grow() {
         Point tail = body.getLast();
-        Point newtail = new Point(tail);
-        body.addLast(newtail);
+        Point newTail = new Point(tail);
+        body.addLast(newTail);
     }
 
     public boolean collidesWithFood(Food food) {
@@ -106,15 +101,13 @@ public class Snake {
 
     public boolean collidesWithSnake(Snake otherSnake) {
         Point head = body.getFirst();
-        Rectangle headRect = new Rectangle(head.x, head.y, width, height);
 
         for (Point point : otherSnake.getBody()) {
-            Rectangle otherHeadRect = new Rectangle(point.x, point.y, otherSnake.getWidth(), otherSnake.getHeight());
-
-            if (headRect.intersects(otherHeadRect)) {
+            if (head.equals(point)) {
                 return true;
             }
         }
+
         return false;
     }
 }

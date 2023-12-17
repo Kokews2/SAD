@@ -2,8 +2,6 @@ package snakegame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class SnakeGame { 
 
@@ -31,6 +29,16 @@ public class SnakeGame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Afegim un menu
+        createMenu();       
+
+        // Mostrar finestra
+        frame.setSize(width,height);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public void createMenu() {
         JPanel menu = new JPanel();
         menu.setLayout(new BoxLayout(menu, BoxLayout.PAGE_AXIS));
 
@@ -41,6 +49,11 @@ public class SnakeGame {
         JButton singleplayerButton = new JButton("Single Player");
         JButton multiplayerButton = new JButton("Multiplayer");
         JButton exitButton = new JButton("Exit");
+
+        // Afegim els ActionListener als botons
+        singleplayerButton.addActionListener(e -> startSinglePlayer());
+        multiplayerButton.addActionListener(e -> startMultiplayer());
+        exitButton.addActionListener(e -> frame.dispose());
 
         // Afegim el títol y els botons al menu
         menu.add(titleLabel);
@@ -53,40 +66,16 @@ public class SnakeGame {
 
         // Afegim el menu al Frame
         frame.getContentPane().add(menu, BorderLayout.CENTER);
+    }
 
-        // Accions dels botons
-        singleplayerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                multiplayer = false;
-                startGame();
-                singleplayerButton.setEnabled(false);
-                multiplayerButton.setEnabled(false);
-            }
-        });
+    public void startSinglePlayer() {
+        multiplayer = false;
+        startGame();
+    }
 
-        multiplayerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                multiplayer = true;
-                startGame();
-                singleplayerButton.setEnabled(false);
-                multiplayerButton.setEnabled(false);
-            }
-        });
-
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-
-        // Mostrar finestra
-        frame.setSize(width,height);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+    public void startMultiplayer() {
+        multiplayer = true;
+        startGame();
     }
 
     public void startGame() {
@@ -116,21 +105,15 @@ public class SnakeGame {
         if (multiplayer) controller.setSnake2(snake2);          
 
         //Afegim entrada en ratoli
-        Ratoli mousecontroller = new Ratoli(snake, board);
+        MouseHandler mousecontroller = new MouseHandler(snake, board);
         board.addMouseListener(mousecontroller);
 
         //Posar el joc amb Timer de Swing
-        timer = new Timer(frequency, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                update(width, height);
-            }
-        });
+        timer = new Timer(frequency, e -> update(width, height));
         timer.start();
 
         frame.setFocusable(true);  // Permitim que el frame tingui el focus del Listener
         frame.requestFocusInWindow();  // Demanem que sigui el focus del Listener
-
         frame.revalidate();
     }
 
@@ -145,11 +128,7 @@ public class SnakeGame {
         snake.move(board.getWidth(), board.getHeight());   
         checkCollisions(food, snake);    
 
-        if (multiplayer) {
-            if (((snake.getScore() + snake2.getScore()) > 0) && ((snake.getScore() + snake2.getScore()) % 50 == 0)) adjustTimerSpeed();
-        } else {
-            if ((snake.getScore() > 0) && ((snake.getScore() % 50) == 0)) adjustTimerSpeed();
-        }
+        adjustTimerSpeed();
         
         board.repaint();
     }
@@ -170,14 +149,13 @@ public class SnakeGame {
     }
 
     private void adjustTimerSpeed() {
-        int newFrequency = frequency - 10;
-
-        if (newFrequency <= 20) {
-            newFrequency = 20; 
+        int totalScore = multiplayer ? (snake.getScore() + snake2.getScore()) : snake.getScore();
+        if (totalScore > 0 && totalScore % 50 == 0) {
+            int newFrequency = frequency - 10;
+            if (newFrequency < 20) newFrequency = 20;            
+            timer.setDelay(newFrequency);
+            timer.restart();
         }
-
-        timer.setDelay(newFrequency);
-        timer.restart();
     }
 
     private void gameOver() {
@@ -203,18 +181,13 @@ public class SnakeGame {
             new Object[]{"Single Player","Multiplayer", "Exit"},
             "Retry");
 
-            if (option == 0) {
-                // Si se hace clic en "Single Player", reiniciar el juego
-                multiplayer = false;
-                startGame();
-            } else if (option == 1) {
-                // Si se hace clic en "Multiplayer", reiniciar el juego
-                multiplayer = true;
-                startGame();
-            } else {
-                // Si se hace clic en "Exit" o se cierra el cuadro de diálogo, salir del juego
-                System.exit(0);
-            }
+        if (option == 0) {
+            startSinglePlayer();
+        } else if (option == 1) {
+            startMultiplayer();
+        } else {
+            frame.dispose();
+        }
     }
 
     public static void main(String[] args) {

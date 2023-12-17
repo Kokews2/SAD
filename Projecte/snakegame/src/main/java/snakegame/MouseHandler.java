@@ -2,12 +2,12 @@ package snakegame;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Ratoli implements MouseListener {
+public class MouseHandler implements MouseListener {
     
     private Snake snake;
     private Board board;
 
-    public Ratoli(Snake snake, Board board) {
+    public MouseHandler(Snake snake, Board board) {
         this.snake = snake;
         this.board = board;
     }
@@ -34,22 +34,22 @@ public class Ratoli implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // No l'utilizem
+        // No l'utilizem pero es necessari per MouseListener
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // No l'utilizem
+        // No l'utilizem pero es necessari per MouseListener
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // No l'utilizem
+        // No l'utilizem pero es necessari per MouseListener
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // No l'utilizem
+        // No l'utilizem pero es necessari per MouseListener
     }
 
 }
