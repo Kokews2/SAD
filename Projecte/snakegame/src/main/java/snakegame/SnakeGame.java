@@ -33,7 +33,6 @@ public class SnakeGame {
 
         // Mostrar finestra
         frame.setSize(width,height);
-        frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
