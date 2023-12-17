@@ -14,7 +14,7 @@ public class Snake {
     private LinkedList<Point> body;
     private int direction;
     private int width = 10;
-    private int heigth = 10;
+    private int height = 10;
 
     public Snake(int x, int y) {
         body = new LinkedList<>();
@@ -41,7 +41,7 @@ public class Snake {
     }
 
     public int getHeight() {
-        return heigth;
+        return height;
     }
 
     public void move(int widthWnd, int heightWnd) {
@@ -49,23 +49,17 @@ public class Snake {
         Point newHead = new Point(head);
         switch (direction) {
             case UP:
-                newHead.y = newHead.y - this.heigth;
+                newHead.y = newHead.y - this.height;
                 if (newHead.y < 0)
-                    newHead.y = heightWnd - this.heigth;
-                if (newHead.y > heightWnd)
-                    newHead.y = 0;
+                    newHead.y = heightWnd - this.height;
                 break;
             case RIGHT:
                 newHead.x = newHead.x + this.width;
-                if (newHead.x < 0)
-                    newHead.x = widthWnd - this.width;
                 if (newHead.x > widthWnd)
                     newHead.x = 0;
                 break;
             case DOWN:
-                newHead.y = newHead.y + this.heigth;
-                if (newHead.y < 0)
-                    newHead.y = heightWnd - this.heigth;
+                newHead.y = newHead.y + this.height;
                 if (newHead.y > heightWnd)
                     newHead.y = 0;
                 break;
@@ -73,8 +67,6 @@ public class Snake {
                 newHead.x = newHead.x - this.width;
                 if (newHead.x < 0)
                     newHead.x = widthWnd - this.width;
-                if (newHead.x > widthWnd)
-                    newHead.x = 0;
                 break;
         }
         body.addFirst(newHead);
@@ -88,7 +80,7 @@ public class Snake {
     }
 
     public boolean collidesWithFood(Food food) {
-        Rectangle headRect = new Rectangle(body.getFirst().x, body.getFirst().y, width, heigth);
+        Rectangle headRect = new Rectangle(body.getFirst().x, body.getFirst().y, width, height);
         Rectangle foodRect = new Rectangle(food.getFood().x, food.getFood().y, food.getWidth(), food.getHeight());
         return headRect.intersects(foodRect);
     }
@@ -97,6 +89,17 @@ public class Snake {
         Point head = body.getFirst();
         for (int i = 1; i < body.size(); i++) {
             if (head.equals(body.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean collidesWithSnake(Snake otherSnake) {
+        // Verifica si el cap colisiona amb l'altre snake
+        Point head = body.getFirst();
+        for (Point point : otherSnake.getBody()) {
+            if (head.equals(point)) {
                 return true;
             }
         }

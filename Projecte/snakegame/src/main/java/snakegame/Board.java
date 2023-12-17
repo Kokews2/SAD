@@ -29,11 +29,22 @@ public class Board extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        drawBoard(g);
         drawSnake1(g);
         if(snake2 != null)
             drawSnake2(g);
         drawFood(g);
         drawScore(g);
+    }
+
+    private void drawBoard(Graphics g) {
+         // Dibujar el fondo del tablero (puedes personalizar esto)
+         g.setColor(Color.LIGHT_GRAY);
+         g.fillRect(0, 0, getWidth(), getHeight());
+ 
+         // Dibujar el rectángulo exterior de negro
+         g.setColor(Color.BLACK);
+         g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
     }
 
     private void drawSnake1(Graphics g) {
@@ -50,7 +61,7 @@ public class Board extends JPanel {
         int i=0;
         for (Point point : snake2.getBody()) {            
             if(i%2 == 0) g.setColor(Color.BLUE);
-            if(i%2 == 1)g.setColor(Color.MAGENTA);
+            if(i%2 == 1) g.setColor(Color.MAGENTA);
             g.fillOval(point.x, point.y, snake2.getWidth(), snake2.getHeight());
             i++;
         }        

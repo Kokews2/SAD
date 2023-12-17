@@ -9,7 +9,7 @@ public class SnakeGame {
 
     private int width = 640;    //Width of the window
     private int height = 480;   //Height of the window
-    private int frequency = 50; //Frequency en ms
+    private int frequency = 100; //Frequency en ms
     private int score = 0;
 
     private JFrame frame;
@@ -55,16 +55,26 @@ public class SnakeGame {
     }
 
     public void startGame() {
+        // Inicialitzem el score
+        this.score = 0;
+
+        // Diem que no apareix el segon snake encara
+        snake2Appeared = false;
+
+        // Settegem la frequencia inicial
+        frequency = 100;
+
         // Eliminar el menú cuando comienza el juego
         frame.getContentPane().removeAll();
 
         //Instanciem els elements del joc
         snake = new Snake(width/2, height/2);
+        snake2 = new Snake(3*width / 4, height / 2);
         food = new Food(width, height);
         board = new Board(snake, food, score);
 
         //Add Board
-        frame.getContentPane().add(board);
+        frame.getContentPane().add(board, BorderLayout.CENTER);
 
         //Afegir els key events
         controller = new Controller(snake);
@@ -89,33 +99,52 @@ public class SnakeGame {
     }
 
     public void update(int width, int height) {
-        snake.move(width, height);
-
         // Condició perque aparegui el segon snake
         if (score >= 100 && !snake2Appeared) {
-            snake2 = new Snake(3*width / 4, height / 2);
             board.setSnake2(snake2);
             controller.setSnake2(snake2);
             snake2Appeared = true;
         }
 
+        snake.move(board.getWidth(), board.getHeight());   
+        checkCollisions(food, snake);    
+
         if (snake2Appeared) {
-            snake2.move(width, height);
+            snake2.move(board.getWidth(), board.getHeight());
             checkCollisions(food, snake2);
+            checkCollisionsBetweenSnakes();
         }
 
-        checkCollisions(food, snake);
+        if (score > 0 && score % 50 == 0)
+            adjustTimerSpeed();
+
         board.update(score);
     }
 
     private void checkCollisions(Food food, Snake snake) {
         if (snake.collidesWithFood(food)) {
             snake.grow();
-            food.placeFood(width, height);
+            food.placeFood(board.getWidth(), board.getHeight());
             score += 10;
         } else if (snake.collidesWithSelf()) {
             gameOver();
         }
+    }
+
+    private void checkCollisionsBetweenSnakes() {
+        if (snake.collidesWithSnake(snake2) || snake2.collidesWithSnake(snake))
+            gameOver();
+    }
+
+    private void adjustTimerSpeed() {
+        int newFrequency = frequency - 10;
+
+        if (newFrequency <= 20) {
+            newFrequency = 20; 
+        }
+
+        timer.setDelay(newFrequency);
+        timer.restart();
     }
 
     private void gameOver() {

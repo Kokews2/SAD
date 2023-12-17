@@ -40,20 +40,28 @@ public class Controller implements KeyListener {
                     snake.setDirection(Snake.RIGHT);
                 break;
                 case KeyEvent.VK_UP:
-                if (snake2.getDirection() != Snake.DOWN)
-                    snake2.setDirection(Snake.UP);
+                if (snake2 != null) {
+                    if (snake2.getDirection() != Snake.DOWN)
+                        snake2.setDirection(Snake.UP);
+                }
                 break;
             case KeyEvent.VK_LEFT:
-                if (snake2.getDirection() != Snake.RIGHT)
-                    snake2.setDirection(Snake.LEFT);
+                if (snake2 != null) {
+                    if (snake2.getDirection() != Snake.RIGHT)
+                        snake2.setDirection(Snake.LEFT);
+                }
                 break;
             case KeyEvent.VK_DOWN:
-                if (snake2.getDirection() != Snake.UP)
-                    snake2.setDirection(Snake.DOWN);
+                if (snake2 != null) {
+                    if (snake2.getDirection() != Snake.UP)
+                        snake2.setDirection(Snake.DOWN);
+                }
                 break;
             case KeyEvent.VK_RIGHT:
-                if (snake2.getDirection() != Snake.LEFT)
-                    snake2.setDirection(Snake.RIGHT);
+                if (snake2 != null) {
+                    if (snake2.getDirection() != Snake.LEFT)
+                        snake2.setDirection(Snake.RIGHT);
+                }
                 break;
         }
     }
