@@ -8,20 +8,17 @@ public class Board extends JPanel {
     private Snake snake;
     private Snake snake2 = null;
     private Food food;
-    private int score;
 
-    public Board(Snake snake, Food food, int score) {
+    public Board(Snake snake, Food food) {
         this.snake = snake;
         this.food = food;
-        this.score = score;
     }
 
     public void setSnake2(Snake snake2) {
         this.snake2 = snake2;
     }
 
-    public void update(int score) {
-        this.score = score;
+    public void update() {
         repaint();
     }
 
@@ -31,8 +28,7 @@ public class Board extends JPanel {
 
         drawBoard(g);
         drawSnake1(g);
-        if(snake2 != null)
-            drawSnake2(g);
+        if(snake2 != null) drawSnake2(g);
         drawFood(g);
         drawScore(g);
     }
@@ -51,7 +47,7 @@ public class Board extends JPanel {
         int i=0;
         for (Point point : snake.getBody()) {            
             if(i%2 == 0) g.setColor(Color.GREEN);
-            if(i%2 == 1)g.setColor(Color.YELLOW);
+            if(i%2 == 1) g.setColor(Color.YELLOW);
             g.fillOval(point.x, point.y, snake.getWidth(), snake.getHeight());
             i++;
         }        
@@ -68,14 +64,14 @@ public class Board extends JPanel {
     }
 
     private void drawFood(Graphics g) {
-        Point food = this.food.getFood();
+        Point point = food.getFood();
         g.setColor(Color.RED);
-        g.fillRect(food.x, food.y, this.food.getWidth(), this.food.getHeight());
+        g.fillRect(point.x, point.y, food.getWidth(), food.getHeight());
     }
 
     public void drawScore(Graphics g) {
         g.setColor(Color.GRAY);
-        g.drawString("Score: " + score, 10, 20);
+        g.drawString("Green Player: " + snake.getScore(), 10, 20);
+        if(snake2 != null) g.drawString("Blue Player: " + snake2.getScore(), 10, 40);
     }
-
 }

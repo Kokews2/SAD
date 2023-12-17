@@ -12,14 +12,15 @@ public class Snake {
     public static final int LEFT = 3;
 
     private LinkedList<Point> body;
-    private int direction;
+    private int direction = RIGHT;
+    private int score = 0;
+
     private int width = 10;
     private int height = 10;
 
     public Snake(int x, int y) {
         body = new LinkedList<>();
         body.add(new Point(x, y));
-        direction = RIGHT;
     }
 
     public void setDirection(int direction) {
@@ -30,6 +31,14 @@ public class Snake {
 
     public int getDirection() {
         return direction;
+    }
+
+    public void setScore(int newScore) {
+        this.score = newScore;
+    }
+
+    public int getScore() {
+        return this.score;
     }
 
     public LinkedList<Point> getBody() {
@@ -96,10 +105,13 @@ public class Snake {
     }
 
     public boolean collidesWithSnake(Snake otherSnake) {
-        // Verifica si el cap colisiona amb l'altre snake
         Point head = body.getFirst();
+        Rectangle headRect = new Rectangle(head.x, head.y, width, height);
+
         for (Point point : otherSnake.getBody()) {
-            if (head.equals(point)) {
+            Rectangle otherHeadRect = new Rectangle(point.x, point.y, otherSnake.getWidth(), otherSnake.getHeight());
+
+            if (headRect.intersects(otherHeadRect)) {
                 return true;
             }
         }

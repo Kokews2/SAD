@@ -10,10 +10,8 @@ public class Xat {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {}
 
-
         // Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
-
 
         // Create and set up the window.
         JFrame frame = new JFrame("Xat");
@@ -21,16 +19,12 @@ public class Xat {
         frame.getRootPane().setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-
-
         // Create an output JPanel and add a JTextArea(20, 30) inside a JScrollPane
         JPanel outputPanel = new JPanel();
         outputPanel.setLayout(new BoxLayout(outputPanel, BoxLayout.PAGE_AXIS));
         JTextArea chatTextArea = new JTextArea(20, 30);
         chatTextArea.setEditable(false);
         outputPanel.add(new JScrollPane(chatTextArea));
-
 
         // Create an input JPanel and add a JTextField(25) and a JButton
         JPanel inputPanel = new JPanel();
@@ -40,12 +34,10 @@ public class Xat {
         inputPanel.add(messageField, BorderLayout.CENTER);
         inputPanel.add(sendButton, BorderLayout.EAST);
 
-
         // Add panels to the main frame
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(outputPanel, BorderLayout.CENTER);
         frame.getContentPane().add(inputPanel, BorderLayout.SOUTH);
-
 
         // Display the window centered.
         frame.pack();
