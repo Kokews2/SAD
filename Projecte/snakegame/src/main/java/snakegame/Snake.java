@@ -101,13 +101,15 @@ public class Snake {
 
     public boolean collidesWithSnake(Snake otherSnake) {
         Point head = body.getFirst();
+        Rectangle headRect = new Rectangle(head.x, head.y, width, height);
 
         for (Point point : otherSnake.getBody()) {
-            if (head.equals(point)) {
+            Rectangle otherHeadRect = new Rectangle(point.x, point.y, otherSnake.getWidth(), otherSnake.getHeight());
+
+            if (headRect.intersects(otherHeadRect)) {
                 return true;
             }
         }
-
         return false;
     }
 }
