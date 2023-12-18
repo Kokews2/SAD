@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SnakeGame { 
+    public static final int MAX_WALLS = 100;
+    public static final int MAX_FREQUENCY = 40;
 
     private int width = 640;     //Width of the window
     private int height = 480;    //Height of the window
@@ -16,9 +18,11 @@ public class SnakeGame {
     private Food food;
     private Board board;
     private Timer timer;
+    private Walls walls;
 
     private Snake snake2;
     private boolean multiplayer = false;
+    private boolean setWalls = true;
 
     public SnakeGame() {
         // Decorem la finestra
@@ -52,7 +56,7 @@ public class SnakeGame {
         // Afegim els ActionListener als botons
         singleplayerButton.addActionListener(e -> startSinglePlayer());
         multiplayerButton.addActionListener(e -> startMultiplayer());
-        exitButton.addActionListener(e -> frame.dispose());
+        exitButton.addActionListener(e -> System.exit(0));
 
         // Afegim el títol y els botons al menu
         menu.add(titleLabel);
@@ -81,8 +85,9 @@ public class SnakeGame {
         //Instanciem els elements del joc
         snake = new Snake(width/2, height/2);
         if (multiplayer) snake2 = new Snake(3*width / 4, height / 2);
-        board = new Board(snake, food);
-        food = new Food(board.getWidth(), board.getHeight());
+        walls = new Walls();
+        food = new Food(width,height);
+        board = new Board(snake, food, walls);        
         if (multiplayer) board.setSnake2(snake2);
 
         // Inicialitzem el score
@@ -117,27 +122,36 @@ public class SnakeGame {
     }
 
     public void update() {
+        if (walls.getArrayDePuntos().size() < MAX_WALLS) {
+            int totalScore = multiplayer ? (snake.getScore() + snake2.getScore()) : snake.getScore();
+            if ((totalScore > 0) && (totalScore % 50 == 0) && setWalls) {
+                walls.placeWalls(board.getWidth(), board.getHeight());  
+                setWalls = false; 
+            }
+            if (totalScore % 50 != 0) setWalls = true;
+        }
+
         // Mode multiplayer activat
         if (multiplayer) {
             snake2.move(board.getWidth(), board.getHeight());
-            checkCollisions(food, snake2);
+            checkCollisions(food, snake2, walls);
             checkCollisionsBetweenSnakes();
         }
 
         snake.move(board.getWidth(), board.getHeight());   
-        checkCollisions(food, snake);    
+        checkCollisions(food, snake, walls);    
 
         adjustTimerSpeed();
         
         board.repaint();
     }
 
-    private void checkCollisions(Food food, Snake snake) {
+    private void checkCollisions(Food food, Snake snake, Walls walls) {
         if (snake.collidesWithFood(food)) {
             snake.grow();
-            food.placeFood(board.getWidth(), board.getHeight());
+            food.placeFood(board.getWidth(), board.getHeight(), walls);
             snake.setScore(snake.getScore() + 10);
-        } else if (snake.collidesWithSelf()) {
+        } else if (snake.collidesWithSelf() || snake.collidesWithWall(walls)) {
             gameOver();
         }
     }
@@ -151,7 +165,7 @@ public class SnakeGame {
         int totalScore = multiplayer ? (snake.getScore() + snake2.getScore()) : snake.getScore();
         if (totalScore > 0 && totalScore % 50 == 0) {
             int newFrequency = frequency - 10;
-            if (newFrequency < 20) newFrequency = 20;            
+            if (newFrequency < MAX_FREQUENCY) newFrequency = MAX_FREQUENCY;            
             timer.setDelay(newFrequency);
             timer.restart();
         }
@@ -189,7 +203,7 @@ public class SnakeGame {
         } else if (option == 1) {
             startMultiplayer();
         } else {
-            frame.dispose();
+            System.exit(0);
         }
     }
 

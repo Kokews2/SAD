@@ -112,4 +112,15 @@ public class Snake {
         }
         return false;
     }
+
+    public boolean collidesWithWall(Walls walls) {
+        Rectangle headRect = new Rectangle(body.getFirst().x, body.getFirst().y, width, height);
+
+        for (Point punt : walls.getArrayDePuntos()) {
+            Rectangle wallsRect = new Rectangle(punt.x, punt.y, walls.getWidth(), walls.getHeight());
+            
+            if (headRect.intersects(wallsRect)) return true;
+        }
+        return false;
+    }
 }
