@@ -108,7 +108,7 @@ public class SnakeGame {
         board.addMouseListener(mousecontroller);
 
         //Posar el joc amb Timer de Swing
-        timer = new Timer(frequency, e -> update(width, height));
+        timer = new Timer(frequency, e -> update());
         timer.start();
 
         frame.setFocusable(true);  // Permitim que el frame tingui el focus del Listener
@@ -116,7 +116,7 @@ public class SnakeGame {
         frame.revalidate();
     }
 
-    public void update(int width, int height) {
+    public void update() {
         // Mode multiplayer activat
         if (multiplayer) {
             snake2.move(board.getWidth(), board.getHeight());
