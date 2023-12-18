@@ -61,7 +61,7 @@ public class Board extends JPanel {
 
     public void drawScore(Graphics g) {
         g.setColor(Color.BLACK);
-        g.drawString("Green Player: " + snake.getScore(), 10, 20);
-        if(snake2 != null) g.drawString("Blue Player: " + snake2.getScore(), 10, 40);
+        g.drawString("Player 1 (Green): " + snake.getScore(), 10, 20);
+        if(snake2 != null) g.drawString("Player 2 (Blue): " + snake2.getScore(), 10, 40);
     }
 }

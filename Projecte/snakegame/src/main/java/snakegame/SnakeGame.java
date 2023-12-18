@@ -162,8 +162,12 @@ public class SnakeGame {
         
         JPanel gameOverPanel = new JPanel(new BorderLayout());
         JLabel label = new JLabel();
-        if(multiplayer) {
-            label.setText("Game Over! Player 1: " + snake.getScore() + " - Player 2: " + snake2.getScore());
+        if(multiplayer && (snake.getScore() > snake2.getScore())) {
+            label.setText("Player 1 wins! Player 1: " + snake.getScore() + " - Player 2: " + snake2.getScore());
+        } else if (multiplayer && (snake.getScore() < snake2.getScore())) {
+            label.setText("Player 2 wins! Player 1: " + snake.getScore() + " - Player 2: " + snake2.getScore());
+        } else if (multiplayer && (snake.getScore() == snake2.getScore())) {
+            label.setText("Its a draw! Player 1: " + snake.getScore() + " - Player 2: " + snake2.getScore());
         } else {
             label.setText("Game Over! Score: " + snake.getScore());
         }
