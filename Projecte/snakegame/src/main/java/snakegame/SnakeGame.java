@@ -81,8 +81,8 @@ public class SnakeGame {
         //Instanciem els elements del joc
         snake = new Snake(width/2, height/2);
         if (multiplayer) snake2 = new Snake(3*width / 4, height / 2);
-        food = new Food(width, height);
         board = new Board(snake, food);
+        food = new Food(board.getWidth(), board.getHeight());
         if (multiplayer) board.setSnake2(snake2);
 
         // Inicialitzem el score
