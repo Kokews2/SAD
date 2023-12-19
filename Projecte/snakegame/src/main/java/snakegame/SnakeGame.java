@@ -48,7 +48,7 @@ public class SnakeGame {
     }
 
     public void createMenu() {
-        JPanel menu = new JPanel();
+        JPanel menu = new JPanel();      // Utilitzem un JPanel pel menu
         menu.setLayout(new BoxLayout(menu, BoxLayout.PAGE_AXIS)); // Utilzizem un BoxLayout
         menu.setBackground(new Color(34, 34, 34)); // Color de fons gris fosc
 
@@ -56,7 +56,7 @@ public class SnakeGame {
         ImageIcon snakeIcon = createImageIcon("\\Imatges\\snakefoto.png"); // Carregem l'imatge
         ImageIcon resizedSnakeIcon = new ImageIcon(
                 snakeIcon.getImage().getScaledInstance(640, 230, Image.SCALE_SMOOTH));
-        JLabel titleLabel = new JLabel(resizedSnakeIcon);
+        JLabel titleLabel = new JLabel(resizedSnakeIcon);       //Afegim l'imatge ajustada a la mida
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         menu.add(titleLabel);
 
@@ -107,7 +107,6 @@ public class SnakeGame {
                 button.setBackground(new Color(68, 68, 68));
             }
         });
-
         return button;
     }
 
@@ -149,7 +148,7 @@ public class SnakeGame {
         // Eliminar el menú quan comença el joc
         frame.getContentPane().removeAll();
 
-        // Add Board
+        // Afegim la Board
         frame.getContentPane().add(board, BorderLayout.CENTER);
 
         // Afegir els key events
@@ -173,8 +172,8 @@ public class SnakeGame {
 
     public void update() {
         if (walls.getArrayDePuntos().size() < MAX_WALLS) {
-            int totalScore = multiplayer ? (snake.getScore() + snake2.getScore()) : snake.getScore();
-            if ((totalScore > 0) && (totalScore % 50 == 0) && setWalls) {
+            int totalScore = multiplayer ? (snake.getScore() + snake2.getScore()) : snake.getScore();    //Contador de puntuacio
+            if ((totalScore > 0) && (totalScore % 50 == 0) && setWalls) {   //Cada 5 rondes apareixerean noves parets
                 walls.placeWalls(board.getWidth(), board.getHeight());
                 setWalls = false;
             }
@@ -189,32 +188,32 @@ public class SnakeGame {
             checkCollisionsBetweenSnakes();
         }
 
-        snake.move(board.getWidth(), board.getHeight());
-        checkCollisions(food, snake, walls);
+        snake.move(board.getWidth(), board.getHeight());        //Movem la serp
+        checkCollisions(food, snake, walls);                     //Comprovem si ha impactat
 
-        adjustTimerSpeed();
+        adjustTimerSpeed();     //Ajustem la velocitat de moviment
 
-        board.repaint();
+        board.repaint();        //Pintem el tauler un altre cop
     }
 
     private void checkCollisions(Food food, Snake snake, Walls walls) {
-        if (snake.collidesWithFood(food)) {
+        if (snake.collidesWithFood(food)) {     // Si toca una fruita la fem creixer, coloquem una nova fruita al mapa i sumem la puntuacio 
             snake.grow();
-            food.placeFood(board.getWidth(), board.getHeight(), walls);
+            food.placeFood(board.getWidth(), board.getHeight(), walls);         
             snake.setScore(snake.getScore() + 10);
         } else if (snake.collidesWithSelf() || snake.collidesWithWall(walls)) {
-            gameOver();
+            gameOver();                 //Si colisiona amb ell mateix o una paret finalitzem
         }
     }
 
     private void checkCollisionsBetweenSnakes() {
         if (snake.collidesWithSnake(snake2) || snake2.collidesWithSnake(snake))
-            gameOver();
+            gameOver();     //Comprovem si colisionen les serps entre elles 
     }
 
     private void adjustTimerSpeed() {
         int totalScore = multiplayer ? (snake.getScore() + snake2.getScore()) : snake.getScore();
-        if (totalScore > 0 && totalScore % 50 == 0) {
+        if (totalScore > 0 && totalScore % 50 == 0) {    // Cada 5 rondes augmentem la velocitat del moviment de la serp (frequencia)
             int newFrequency = frequency - 10;
             if (newFrequency < MAX_FREQUENCY)
                 newFrequency = MAX_FREQUENCY;
@@ -226,7 +225,7 @@ public class SnakeGame {
     private void gameOver() {
         timer.stop();
 
-        JPanel gameOverPanel = new JPanel(new BorderLayout());
+        JPanel gameOverPanel = new JPanel(new BorderLayout()); 
         JLabel label = new JLabel();
         if (multiplayer && (snake.getScore() > snake2.getScore())) {
             label.setText("Player 1 wins! Player 1: " + snake.getScore() + " - Player 2: " + snake2.getScore());
