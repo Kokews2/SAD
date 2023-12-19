@@ -38,7 +38,7 @@ public class Board extends JPanel {
 
     private void drawBoard(Graphics g) {
          // Dibujar el fondo del tablero (puedes personalizar esto)
-         g.setColor(Color.LIGHT_GRAY);
+         g.setColor(Color.BLACK);
          g.fillRect(0, 0, getWidth(), getHeight());
  
          // Dibujar el rectángulo exterior de negro
