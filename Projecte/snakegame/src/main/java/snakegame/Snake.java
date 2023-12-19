@@ -118,8 +118,9 @@ public class Snake {
 
         for (Point punt : walls.getArrayDePuntos()) {
             Rectangle wallsRect = new Rectangle(punt.x, punt.y, walls.getWidth(), walls.getHeight());
-            
-            if (headRect.intersects(wallsRect)) return true;
+
+            if (headRect.intersects(wallsRect))
+                return true;
         }
         return false;
     }

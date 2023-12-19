@@ -48,8 +48,8 @@ public class Walls {
         for (int i = 0; i < MAX_WALLS; i++) {
             x = rnd.nextInt(widthWnd / width) * width;
             y = rnd.nextInt(heightWnd / height) * height;
-            
-            arrayDePuntos.addLast(new Point(x,y)); 
+
+            arrayDePuntos.addLast(new Point(x, y));
         }
     }
 }

@@ -53,8 +53,9 @@ public class SnakeGame {
         menu.setBackground(new Color(34, 34, 34)); // Color de fons gris fosc
 
         // Creem el títol del joc
-        ImageIcon snakeIcon = createImageIcon("\\Imatges\\snakefoto.png");  // Carregem l'imatge
-        ImageIcon resizedSnakeIcon = new ImageIcon(snakeIcon.getImage().getScaledInstance(640, 230, Image.SCALE_SMOOTH));
+        ImageIcon snakeIcon = createImageIcon("\\Imatges\\snakefoto.png"); // Carregem l'imatge
+        ImageIcon resizedSnakeIcon = new ImageIcon(
+                snakeIcon.getImage().getScaledInstance(640, 230, Image.SCALE_SMOOTH));
         JLabel titleLabel = new JLabel(resizedSnakeIcon);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         menu.add(titleLabel);
@@ -111,7 +112,8 @@ public class SnakeGame {
     }
 
     private ImageIcon createImageIcon(String path) {
-        URL imgURL = getClass().getResource(path); // Obtenim la classe actual y amb aixó el path del recurs de la imatge.
+        URL imgURL = getClass().getResource(path); // Obtenim la classe actual y amb aixó el path del recurs de la
+                                                   // imatge.
         return new ImageIcon(imgURL);
     }
 

@@ -16,7 +16,7 @@ public class Controller implements KeyListener {
         this.snake2 = snake2;
     }
 
-    private void handleDirectionChange(int key, Snake currentSnake, int upKey, int leftKey, int downKey, int rightKey) {       
+    private void handleDirectionChange(int key, Snake currentSnake, int upKey, int leftKey, int downKey, int rightKey) {
         if (key == upKey && currentSnake.getDirection() != Snake.DOWN) {
             currentSnake.setDirection(Snake.UP);
         } else if (key == leftKey && currentSnake.getDirection() != Snake.RIGHT) {
@@ -38,7 +38,9 @@ public class Controller implements KeyListener {
                 break;
             default:
                 handleDirectionChange(key, snake, KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D);
-                if (snake2 != null) handleDirectionChange(key, snake2, KeyEvent.VK_UP, KeyEvent.VK_LEFT, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT);
+                if (snake2 != null)
+                    handleDirectionChange(key, snake2, KeyEvent.VK_UP, KeyEvent.VK_LEFT, KeyEvent.VK_DOWN,
+                            KeyEvent.VK_RIGHT);
                 break;
         }
     }
@@ -51,5 +53,5 @@ public class Controller implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         // no l'utilizem pero es necesari per KeyListener
-    }    
+    }
 }

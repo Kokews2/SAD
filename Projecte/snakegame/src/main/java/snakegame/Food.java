@@ -13,7 +13,7 @@ public class Food {
 
     public Food(int widthWnd, int heightWnd) {
         this.rnd = new Random();
-        this.food = new Point(widthWnd/4, heightWnd/4);
+        this.food = new Point(widthWnd / 4, heightWnd / 4);
     }
 
     public Point getFood() {
@@ -45,8 +45,9 @@ public class Food {
 
         for (Point punt : walls.getArrayDePuntos()) {
             Rectangle wallRect = new Rectangle(punt.x, punt.y, walls.getWidth(), walls.getHeight());
-            
-            if (foodRect.intersects(wallRect)) return true;
+
+            if (foodRect.intersects(wallRect))
+                return true;
         }
         return false;
     }

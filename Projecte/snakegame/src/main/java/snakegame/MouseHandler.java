@@ -1,9 +1,10 @@
 package snakegame;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MouseHandler implements MouseListener {
-    
+
     private Snake snake;
     private Board board;
 
@@ -13,23 +14,23 @@ public class MouseHandler implements MouseListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e){
+    public void mouseClicked(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
         int dir = snake.getDirection();
 
-        if (x<board.getWidth()/2 && dir != Snake.LEFT && dir !=Snake.RIGHT) {
+        if (x < board.getWidth() / 2 && dir != Snake.LEFT && dir != Snake.RIGHT) {
             snake.setDirection(Snake.LEFT);
-        }    
-        if (x>board.getWidth()/2 && dir != Snake.LEFT && dir !=Snake.RIGHT) {
+        }
+        if (x > board.getWidth() / 2 && dir != Snake.LEFT && dir != Snake.RIGHT) {
             snake.setDirection(Snake.RIGHT);
-        }      
-        if (y<board.getHeight()/2 && dir!= Snake.UP && dir!=Snake.DOWN) {
+        }
+        if (y < board.getHeight() / 2 && dir != Snake.UP && dir != Snake.DOWN) {
             snake.setDirection(Snake.UP);
-        }    
-        if (y>board.getHeight()/2 && dir!= Snake.UP && dir!=Snake.DOWN) {
+        }
+        if (y > board.getHeight() / 2 && dir != Snake.UP && dir != Snake.DOWN) {
             snake.setDirection(Snake.DOWN);
-        }    
+        }
     }
 
     @Override

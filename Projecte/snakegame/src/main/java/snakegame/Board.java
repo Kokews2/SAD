@@ -29,7 +29,6 @@ public class Board extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        
         drawSnake(g, snake, Color.GREEN, Color.YELLOW);
         if (snake2 != null)
             drawSnake(g, snake2, Color.CYAN, Color.MAGENTA);
