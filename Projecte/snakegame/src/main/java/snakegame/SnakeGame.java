@@ -1,9 +1,11 @@
 package snakegame;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import java.net.URL;
 
 public class SnakeGame {
@@ -47,55 +49,54 @@ public class SnakeGame {
 
     public void createMenu() {
         JPanel menu = new JPanel();
-        menu.setLayout(new BoxLayout(menu, BoxLayout.PAGE_AXIS));
+        menu.setLayout(new BoxLayout(menu, BoxLayout.PAGE_AXIS)); // Utilzizem un BoxLayout
         menu.setBackground(new Color(34, 34, 34)); // Color de fons gris fosc
 
-        // Crear y añadir el título del juego
+        // Creem el títol del joc
         ImageIcon snakeIcon = createImageIcon("\\Imatges\\snakefoto.png");  // Carregem l'imatge
         ImageIcon resizedSnakeIcon = new ImageIcon(snakeIcon.getImage().getScaledInstance(640, 230, Image.SCALE_SMOOTH));
         JLabel titleLabel = new JLabel(resizedSnakeIcon);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         menu.add(titleLabel);
 
-        // Añadir espacio en blanco
+        // Afegir espai entre la JLabel i el JButton
         menu.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Crear los botones del menú
+        // Crear els botons del menu
         JButton singleplayerButton = createStyledButton("Single Player");
         JButton multiplayerButton = createStyledButton("Multiplayer");
         JButton exitButton = createStyledButton("Exit");
 
-        // Añadir ActionListener a los botones
+        // Afegim els ActionListener als botons
         singleplayerButton.addActionListener(e -> startSinglePlayer());
         multiplayerButton.addActionListener(e -> startMultiplayer());
         exitButton.addActionListener(e -> System.exit(0));
 
-        // Alinear los botones al centro
+        // Centrem els botons a la pantalla
         singleplayerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         multiplayerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Añadir los botones al menú
+        // Afegim els botons al menu
         menu.add(singleplayerButton);
-        menu.add(Box.createRigidArea(new Dimension(0, 10))); // Espaciado
+        menu.add(Box.createRigidArea(new Dimension(0, 10)));
         menu.add(multiplayerButton);
-        menu.add(Box.createRigidArea(new Dimension(0, 10))); // Espaciado
+        menu.add(Box.createRigidArea(new Dimension(0, 10)));
         menu.add(exitButton);
 
         // Añadir el menú al frame
         frame.getContentPane().add(menu, BorderLayout.CENTER);
-
     }
 
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
-        button.setBackground(new Color(68, 68, 68)); // Color de fondo más oscuro
-        button.setForeground(Color.GREEN);
+        button.setBackground(new Color(68, 68, 68)); // Color de fons gris
+        button.setForeground(Color.GREEN); // Color de lletres
         button.setFont(new Font("Arial", Font.BOLD, 16));
-        button.setFocusPainted(false); // Eliminar el resaltado al obtener el foco
-        button.setBorderPainted(false); // Eliminar el borde pintado
+        button.setFocusPainted(false); // Eliminar el rectangle per ser el focus
+        button.setBorderPainted(false); // Eliminar la bora pintada
 
-        // Cambiar el color del botón al pasar el ratón por encima
+        // Cambiar el color del boto quan pasem el Mouse per sobre
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 button.setBackground(new Color(88, 88, 88));
@@ -110,13 +111,8 @@ public class SnakeGame {
     }
 
     private ImageIcon createImageIcon(String path) {
-        URL imgURL = getClass().getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL);
-        } else {
-            System.err.println("No se pudo encontrar el archivo de imagen: " + path);
-            return null;
-        }
+        URL imgURL = getClass().getResource(path); // Obtenim la classe actual y amb aixó el path del recurs de la imatge.
+        return new ImageIcon(imgURL);
     }
 
     public void startSinglePlayer() {
