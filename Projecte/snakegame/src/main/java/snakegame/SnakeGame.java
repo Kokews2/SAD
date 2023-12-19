@@ -225,8 +225,8 @@ public class SnakeGame {
     private void gameOver() {
         timer.stop();
 
-        JPanel gameOverPanel = new JPanel(new BorderLayout()); 
-        JLabel label = new JLabel();
+        JPanel gameOverPanel = new JPanel(new BorderLayout());  //Creem un JPanel pel missatge al final del joc
+        JLabel label = new JLabel();    //Creem un label que ens digui quin es el resultat del joc
         if (multiplayer && (snake.getScore() > snake2.getScore())) {
             label.setText("Player 1 wins! Player 1: " + snake.getScore() + " - Player 2: " + snake2.getScore());
         } else if (multiplayer && (snake.getScore() < snake2.getScore())) {
@@ -239,7 +239,7 @@ public class SnakeGame {
 
         gameOverPanel.add(label, BorderLayout.CENTER);
 
-        int option = JOptionPane.showOptionDialog(
+        int option = JOptionPane.showOptionDialog(      //Fem apareixer 3 botons amb les opcions posibles un cop acabada la partida
                 frame,
                 gameOverPanel,
                 "Game Over!",
