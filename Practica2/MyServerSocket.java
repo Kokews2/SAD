@@ -5,15 +5,28 @@ public class MyServerSocket {
     
     private ServerSocket serverSocket;
 
-    public MyServerSocket(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
+    public MyServerSocket(int port) {
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public MySocket accept() throws IOException {
-        return new MySocket(serverSocket.accept());
+    public MySocket accept() {
+        try {
+            return new MySocket(serverSocket.accept());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public void close() throws IOException {
-        serverSocket.close();
+    public void close() {
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

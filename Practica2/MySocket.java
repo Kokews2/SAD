@@ -12,28 +12,52 @@ public class MySocket {
     private BufferedReader reader;
     private PrintWriter writer;
 
-    public MySocket(Socket socket) throws IOException {
+    public MySocket(Socket socket) {
         this.socket = socket;
-        this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        this.writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+        try {
+            this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
     }
 
-    public MySocket(String host, int port) throws IOException, UnknownHostException {
-        this.socket = new Socket(host, port);
-        this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        this.writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+    public MySocket(String host, int port) {
+        try {
+            this.socket = new Socket(host, port);
+            this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
-    public void close() throws IOException {
-        socket.close();
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public int read() throws IOException {
-        return reader.read();
+    public int read() {
+        try {
+            return reader.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
-    public String readLine() throws IOException {
-        return reader.readLine();
+    public String readLine() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void print(String line) {
