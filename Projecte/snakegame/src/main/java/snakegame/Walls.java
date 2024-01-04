@@ -43,13 +43,13 @@ public class Walls {
     public void placeWalls(int widthWnd, int heightWnd) {
         Random rnd = new Random();
         int x = rnd.nextInt(widthWnd / width) * width;
-        int y = rnd.nextInt(heightWnd / height) * height;
+        int y = rnd.nextInt(heightWnd / height) * height;   //Agafem dos cordenades aleatories
 
         for (int i = 0; i < MAX_WALLS; i++) {
             x = rnd.nextInt(widthWnd / width) * width;
             y = rnd.nextInt(heightWnd / height) * height;
 
-            arrayDePuntos.addLast(new Point(x, y));
+            arrayDePuntos.addLast(new Point(x, y));     //Les afegim a la llista de parets
         }
     }
 }
