@@ -16,7 +16,7 @@ public class MySocket {
         this.socket = socket;
         try {
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+            this.writer = new PrintWriter(socket.getOutputStream(),true);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -28,7 +28,7 @@ public class MySocket {
         try {
             this.socket = new Socket(host, port);
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+            this.writer = new PrintWriter(socket.getOutputStream(),true);
         } catch (IOException e) {
             e.printStackTrace();
         }
