@@ -24,7 +24,7 @@ public class Line {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    private void notifyLineChanged(String oldValue, String newValue) {
+    private void notifyLineChanged(String oldValue, int newValue) {
         propertyChangeSupport.firePropertyChange("line", oldValue, newValue);
     }
 
@@ -94,7 +94,6 @@ public class Line {
         return line.toString();
     }
 
-    @Override
     public int length() {
         return line.length();
     }
