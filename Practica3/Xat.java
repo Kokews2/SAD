@@ -10,24 +10,25 @@ public class Xat {
     private JTextField loginTextField;
     private JButton loginButton;
 
+    // Atributs de la finestra del Xat
     private JFrame xat;
     private JPanel outputPanel;
     private JPanel inputPanel;
     private JPanel usersPanel;
     private JButton sendButton;
     private JTextArea textArea;
-    private JTextArea usersArea;
     private JTextField messageField;
-    private DefaultListModel<String> usersList;
+    private JList<String> userList;
+    private DefaultListModel<String> usersListModel;
 
     private String username;
     private MySocket socket;
-    private ChatMonitor chatMonitor;
 
     public Xat(MySocket socket) {
         this.socket = socket;
-        this.chatMonitor = chatMonitor;
-        this.chatMonitor.setXat(this);
+
+        usersListModel = new DefaultListModel<>();
+        userList = new JList<>(usersListModel);
 
         javax.swing.SwingUtilities.invokeLater(this::createAndShowGUI);
     }
@@ -57,17 +58,27 @@ public class Xat {
 
         // Afegim el JPanel al JFrame
         login.getContentPane().add(loginPanel, BorderLayout.PAGE_START);
-        
+
         // Mostrar la finestra centrada
-        login.setSize(450,500);
-        login.setLocationRelativeTo(null); 
+        login.setSize(450, 500);
+        login.setLocationRelativeTo(null);
         login.setVisible(true);
     }
 
     public void login() {
-        username = loginTextField.getText();
+        // Enviem el username al Server
+        socket.println(loginTextField.getText());
 
-        // LOGICA A COMPLETAR...
+        // Guardem el nick ÚNIC a una variable
+        username = socket.readLine();
+
+        // Métode per anar actualitzant tot el que arriba del servidor
+        usersListModel.addElement(username);
+        update();
+
+        // Iniciem el xat
+        login.setVisible(false);
+        createXat();
     }
 
     public void createXat() {
@@ -82,6 +93,7 @@ public class Xat {
         textArea = new JTextArea(20, 30);
         textArea.setEditable(false);
         outputPanel.add(new JScrollPane(textArea));
+        textArea.append("[+] Benvingut al xat " + username + "!\n");
 
         // Creem el inputPanel amb el JTextField del missatge a enviar amb el JButon
         inputPanel = new JPanel();
@@ -95,8 +107,7 @@ public class Xat {
         // Creem el usersPanel amb el JTextArea dels usuaris dins
         usersPanel = new JPanel();
         usersPanel.setLayout(new BorderLayout());
-        //usersPanel.setLayout(new BoxLayout(usersPanel, BoxLayout.PAGE_AXIS));
-        //usersPanel.setSize(5, 15);
+        usersPanel.setSize(5, 15);
         usersPanel.add(new JScrollPane(userList), BorderLayout.EAST);
 
         // Add panels to the main frame
@@ -105,23 +116,44 @@ public class Xat {
         xat.getContentPane().add(inputPanel, BorderLayout.SOUTH);
         xat.getContentPane().add(usersPanel, BorderLayout.EAST);
 
-        // Lógica del botó "Enviar"
-        sendButton.addActionListener(e -> buttonSendMessage());
-
-        xat.setSize(450,500);
-        xat.setLocationRelativeTo(null); 
+        xat.setSize(450, 500);
+        xat.setLocationRelativeTo(null);
         xat.setVisible(true);
     }
 
     public void buttonSendMessage() {
         String message = messageField.getText();
-        chatMonitor.sendMessage("Jo", message);
+        socket.println(message); // Enviem el missatge al servidor
+        textArea.append(username + ": " + message + "\n"); // Afegim textualment el missatge
         messageField.setText("");
     }
 
-    // Funció per agregar un missatge al area del chat
-    public void appendMessage(String sender, String message) {
-        textArea.append(sender + ": " + message + "\n");
+    public void update() {
+        new Thread(() -> {
+            String line;
+            try {
+                while ((line = socket.readLine()) != null) {
+                    if (line.contains("onlineUsersList:")) {
+                        // Actualizar la llista d'usuaris
+                        updateUserList(line);
+                    } else {
+                        // Imprimim missatges provenents del servidor
+                        textArea.append(line + " \n");
+                    }
+                }
+            } catch (Exception ex) {
+                socket.close();
+                System.exit(0);
+            }
+        }).start();
+    }
+
+    public void updateUserList(String onlineUsersList) {
+        String[] users = onlineUsersList.split(" ");
+        usersListModel.clear();
+        for (int i = 1; i < users.length; i++) {
+            usersListModel.addElement(users[i]);
+        }
     }
 
     public static void main(String[] args) {
