@@ -7,9 +7,7 @@ public class EchoClient {
     public static void main (String[] args){
 
         MySocket socket = new MySocket(args[0], Integer.parseInt(args[1]));
-        
-        ChatMonitor chatMonitor = new ChatMonitor();
-        Xat xat = new Xat(chatMonitor, socket);
+        System.out.println("[+] Conectat al servidor com " + args[0] + ":" + args[1]);
 
         // Input Thread
         new Thread(() -> {

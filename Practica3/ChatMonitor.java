@@ -7,10 +7,9 @@ public class ChatMonitor {
 
     private final Map<String, MySocket> users = new HashMap<>();
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
-    private Xat xat;
 
-    public void setXat(Xat xat) {
-        this.xat = xat;
+    public Map<String, MySocket> getUsers() {
+        return users;
     }
 
     public void addUser(String nick, MySocket socket) {

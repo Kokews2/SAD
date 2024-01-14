@@ -1,8 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
 
-import org.w3c.dom.events.MouseEvent;
-
 public class Xat {
 
     // Atributs de la finestra login
@@ -26,9 +24,7 @@ public class Xat {
     private MySocket socket;
     private ChatMonitor chatMonitor;
 
-    public Xat(ChatMonitor chatMonitor, MySocket socket) {
-        super();
-
+    public Xat(MySocket socket) {
         this.socket = socket;
         this.chatMonitor = chatMonitor;
         this.chatMonitor.setXat(this);
@@ -41,36 +37,30 @@ public class Xat {
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Creació de la finestra login
-        login = new JFrame("Log-in");
+        login = new JFrame("Login");
         login.setLayout(new BorderLayout(5, 5));
         login.getRootPane().setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        
         login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Creació dels widgets del Login
         loginPanel = new JPanel();
         loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.PAGE_AXIS));
-        loginLabel = new JLabel("ENTER USERNAME");
-        makeStylishLabel(loginLabel);
-        loginLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrar el texto
-        loginTextField = new JTextField(2);
-        loginButton = createStyledButton("LOGIN");
-        loginLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrar el texto
+        loginLabel = new JLabel("Enter your username");
+        loginTextField = new JTextField(25);
+        loginButton = new JButton("LOGIN");
         loginButton.addActionListener(e -> login());
 
         // Afegim els widgets al loginPanel
         loginPanel.add(loginLabel);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaiat vertical
         loginPanel.add(loginTextField);
-        loginPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaiat vertical
         loginPanel.add(loginButton);
 
         // Afegim el JPanel al JFrame
         login.getContentPane().add(loginPanel, BorderLayout.PAGE_START);
-
+        
         // Mostrar la finestra centrada
-        login.setSize(450, 500);
-        login.setLocationRelativeTo(null);
+        login.setSize(450,500);
+        login.setLocationRelativeTo(null); 
         login.setVisible(true);
     }
 
@@ -97,16 +87,17 @@ public class Xat {
         inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.PAGE_AXIS));
         messageField = new JTextField(25);
-        sendButton = createStyledButton("Enviar");
+        sendButton = new JButton("Enviar");
+        sendButton.addActionListener(e -> buttonSendMessage());
         inputPanel.add(messageField, BorderLayout.CENTER);
         inputPanel.add(sendButton, BorderLayout.EAST);
 
         // Creem el usersPanel amb el JTextArea dels usuaris dins
         usersPanel = new JPanel();
-        usersPanel.setLayout(new BoxLayout(usersPanel, BoxLayout.PAGE_AXIS));
-        usersArea = new JTextArea(5, 15);
-        usersArea.setEditable(false);
-        usersPanel.add(new JScrollPane(usersArea));
+        usersPanel.setLayout(new BorderLayout());
+        //usersPanel.setLayout(new BoxLayout(usersPanel, BoxLayout.PAGE_AXIS));
+        //usersPanel.setSize(5, 15);
+        usersPanel.add(new JScrollPane(userList), BorderLayout.EAST);
 
         // Add panels to the main frame
         xat.getContentPane().setLayout(new BorderLayout());
@@ -117,8 +108,8 @@ public class Xat {
         // Lógica del botó "Enviar"
         sendButton.addActionListener(e -> buttonSendMessage());
 
-        xat.setSize(450, 500);
-        xat.setLocationRelativeTo(null);
+        xat.setSize(450,500);
+        xat.setLocationRelativeTo(null); 
         xat.setVisible(true);
     }
 
@@ -134,52 +125,6 @@ public class Xat {
     }
 
     public static void main(String[] args) {
-
-        // javax.swing.SwingUtilities.invokeLater(() -> new Xat(new ChatMonitor() ,new
-        // MySocket(args[0], Integer.parseInt(args[1]))));
-
-        ChatMonitor chatMonitor = new ChatMonitor();
-        MySocket sckt = new MySocket("127.0.0.1", 8080);
-        Xat xat = new Xat(chatMonitor, sckt);
-
-        xat.createXat();
-        /*
-         * javax.swing.SwingUtilities.invokeLater(new Runnable() {
-         * public void run() {
-         * 
-         * }
-         * });
-         */
+        javax.swing.SwingUtilities.invokeLater(() -> new Xat(new MySocket(args[0], Integer.parseInt(args[1]))));
     }
-
-
-
-
-
-
-
-
-    private void makeStylishLabel(JLabel label) {
-        label.setFont(new Font("Arial", Font.BOLD, 16));
-        label.setForeground(new Color(68, 68, 68));
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setOpaque(true);
-        label.setBackground(Color.LIGHT_GRAY);
-        label.setPreferredSize(new Dimension(250, 50));
-    }
-
-
-    private JButton createStyledButton(String text) {
-        JButton button = new JButton(text);
-        button.setBackground(Color.LIGHT_GRAY); // Color de fons gris
-        button.setForeground(new Color(68, 68, 68)); // Color de lletres
-        button.setFont(new Font("Arial", Font.BOLD, 16));
-        button.setFocusPainted(false); // Eliminar el rectangle per ser el focus
-        button.setBorderPainted(false); // Eliminar la bora pintada
-
-        return button;
-    }
-
-
-
 }
