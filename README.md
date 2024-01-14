@@ -1,11 +1,11 @@
 # SAD
 Repository Content
 
-1- Pràctica 1
+1- Pràctica 1 (https://github.com/Kokews2/SAD/tree/main/Practica1)
 
-       - Pràctica 1 (https://github.com/Kokews2/SAD/tree/main/Practica1)
+       - Pràctica 1 
        
-       - Pràctica 1 amb millores MVC (https://github.com/Kokews2/SAD/tree/main/Practica1/MVC)
+       - Pràctica 1 amb millores MVC 
 
 3- Pràctica 2 (https://github.com/Kokews2/SAD/tree/main/Practica2)
 
