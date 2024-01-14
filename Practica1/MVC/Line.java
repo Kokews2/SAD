@@ -7,7 +7,7 @@ public class Line {
     private int cursorPosition;
     private boolean insertMode; 
 
-    private int oldValue = 0;
+    Object oldValue = 0;
     private PropertyChangeSupport propertyChangeSupport;
 
     public Line() {
@@ -25,7 +25,7 @@ public class Line {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    private void notifyLineChanged(int oldValue, int newValue) {
+    private void notifyLineChanged(Object oldValue, Object newValue) {
         propertyChangeSupport.firePropertyChange("line", oldValue, newValue);
     }
 
