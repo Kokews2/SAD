@@ -6,6 +6,8 @@ public class Line {
     private StringBuffer line;
     private int cursorPosition;
     private boolean insertMode; 
+
+    private int oldValue = 0;
     private PropertyChangeSupport propertyChangeSupport;
 
     public Line() {
@@ -14,8 +16,7 @@ public class Line {
         insertMode = false;
         propertyChangeSupport = new PropertyChangeSupport(this);
     }
-    
-    // Métodos para manejar los oyentes de cambio de propiedad
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
@@ -24,7 +25,7 @@ public class Line {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    private void notifyLineChanged(String oldValue, int newValue) {
+    private void notifyLineChanged(int oldValue, int newValue) {
         propertyChangeSupport.firePropertyChange("line", oldValue, newValue);
     }
 
@@ -34,25 +35,29 @@ public class Line {
 
     public void moveCursorRight() {
         if (cursorPosition < line.length()) {
-            notifyLineChanged(null, KeyCar.M_RIGHT);
+            notifyLineChanged(oldValue, KeyCar.M_RIGHT);
+            oldValue = KeyCar.M_RIGHT;
             cursorPosition++;
         }
     }
     
     public void moveCursorLeft() {
         if (cursorPosition > 0) {
-            notifyLineChanged(null, KeyCar.M_LEFT);
+            notifyLineChanged(oldValue, KeyCar.M_LEFT);
+            oldValue = KeyCar.M_LEFT;
             cursorPosition--;
         }
     }
 
     public void home() {
-        notifyLineChanged(null, KeyCar.M_HOME);
+        notifyLineChanged(oldValue, KeyCar.M_HOME);
+        oldValue = KeyCar.M_HOME;
         cursorPosition = 0;
     }
 
     public void end() {
-        notifyLineChanged(null, KeyCar.M_END);
+        notifyLineChanged(oldValue, KeyCar.M_END);
+        oldValue = KeyCar.M_END;
         cursorPosition = line.length();
     }
 
@@ -62,14 +67,16 @@ public class Line {
 
     public void delete() {
         if (cursorPosition >= 0 && cursorPosition < line.length()) {
-            notifyLineChanged(null, KeyCar.M_DEL);
+            notifyLineChanged(oldValue, KeyCar.M_DEL);
+            oldValue = KeyCar.M_DEL;
             line.deleteCharAt(cursorPosition);
         }
     }
 
     public void deleteChar() {
         if (cursorPosition > 0 && cursorPosition <= line.length()) {
-            notifyLineChanged(null, KeyCar.M_DEL);
+            notifyLineChanged(oldValue, KeyCar.M_DEL);
+            oldValue = KeyCar.M_DEL;
             line.deleteCharAt(cursorPosition - 1);
             moveCursorLeft();
         }
@@ -77,12 +84,14 @@ public class Line {
 
     public void addChar(char car) {
         if (insertMode && cursorPosition < line.length()) {
-            notifyLineChanged(null, KeyCar.M_INS);         
+            notifyLineChanged(oldValue, KeyCar.M_INS);  
+            oldValue = KeyCar.M_INS;       
             line.setCharAt(cursorPosition, car);
             System.out.print(car);
             cursorPosition++;
         } else {
-            notifyLineChanged(null, KeyCar.M_NOINS);
+            notifyLineChanged(oldValue, KeyCar.M_NOINS);
+            oldValue = KeyCar.M_NOINS;
             line.insert(cursorPosition, car);
             System.out.print(car);
             cursorPosition++;
