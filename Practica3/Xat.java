@@ -97,7 +97,7 @@ public class Xat {
         inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.PAGE_AXIS));
         messageField = new JTextField(25);
-        sendButton = new JButton("Enviar");
+        sendButton = createStyledButton("Enviar");
         inputPanel.add(messageField, BorderLayout.CENTER);
         inputPanel.add(sendButton, BorderLayout.EAST);
 
@@ -142,7 +142,7 @@ public class Xat {
         MySocket sckt = new MySocket("127.0.0.1", 8080);
         Xat xat = new Xat(chatMonitor, sckt);
 
-        xat.createAndShowGUI();
+        xat.createXat();
         /*
          * javax.swing.SwingUtilities.invokeLater(new Runnable() {
          * public void run() {
@@ -161,7 +161,7 @@ public class Xat {
 
     private void makeStylishLabel(JLabel label) {
         label.setFont(new Font("Arial", Font.BOLD, 16));
-        label.setForeground(Color.BLUE);
+        label.setForeground(new Color(68, 68, 68));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setOpaque(true);
         label.setBackground(Color.LIGHT_GRAY);
@@ -172,7 +172,7 @@ public class Xat {
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setBackground(Color.LIGHT_GRAY); // Color de fons gris
-        button.setForeground(Color.BLUE); // Color de lletres
+        button.setForeground(new Color(68, 68, 68)); // Color de lletres
         button.setFont(new Font("Arial", Font.BOLD, 16));
         button.setFocusPainted(false); // Eliminar el rectangle per ser el focus
         button.setBorderPainted(false); // Eliminar la bora pintada
